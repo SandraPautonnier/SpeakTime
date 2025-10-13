@@ -1,0 +1,16 @@
+@import "../utils/mixins";
+
+header {
+    @include flex-row-between();
+    margin-bottom: 20px;
+    .header-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.logo {
+    max-width: 50px;
+}

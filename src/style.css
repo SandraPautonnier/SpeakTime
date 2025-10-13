@@ -1,17 +1,120 @@
-/* Error: Can't find stylesheet to import.
- *   ,
- * 1 | @import "utils/variables.scss";
- *   |         ^^^^^^^^^^^^^^^^^^^^^^
- *   '
- *   src\sass\main.scss 1:9  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Can't find stylesheet to import.\a   \2577 \a 1 \2502  @import \"utils/variables.scss\";\d\a   \2502          ^^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   src\\sass\\main.scss 1:9  root stylesheet";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
+header .header-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  max-width: 50px;
+}
+
+* {
+  color: #5664E3;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+
+body {
+  width: 1240px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.App {
+  padding: 30px;
+}
+
+p, label, input, select, textarea {
+  font-family: "Inter", sans-serif;
+  font-weight: normal;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.btn-main {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: #7a52b3;
+  background: linear-gradient(90deg, #5664E3 0%, #ff914d 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-main:hover {
+  background-color: rgb(42.2487309645, 59.8730964467, 219.7512690355);
+}
+.btn-main:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: white;
+  color: #5664E3;
+  border: 2px solid #5664E3;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn-secondary:hover {
+  background-color: #5664E3;
+  color: white;
+}
+.btn-secondary:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border-color: darkgrey;
+  cursor: not-allowed;
+}
+
+.btn-add {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: white;
+  color: #5664E3;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn-add:hover {
+  background-color: #5664E3;
+  color: white;
+  border-color: #5664E3;
+}
+.btn-add:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border-color: darkgrey;
+  cursor: not-allowed;
+}
+
+/*# sourceMappingURL=style.css.map */

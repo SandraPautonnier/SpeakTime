@@ -1,0 +1,86 @@
+
+@mixin flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@mixin flex-row-between {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+//button
+
+@mixin button-main {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    background: #7a52b3;
+    background: linear-gradient(90deg, $primary-color 0%, $secondary-color 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+    }
+
+    &:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+    }
+}
+
+@mixin button-secondary {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    background: white;
+    color: $primary-color;
+    border: 2px solid $primary-color;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+        background-color: $primary-color;
+        color: white;
+    }
+
+    &:disabled {
+        background-color: lightgrey;
+        color: darkgrey;
+        border-color: darkgrey;
+        cursor: not-allowed;
+    }
+}
+
+@mixin button-add {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    background: white;
+    color: $primary-color;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+        background-color: $primary-color;
+        color: white;
+        border-color: $primary-color;
+    }
+
+    &:disabled {
+        background-color: lightgrey;
+        color: darkgrey;
+        border-color: darkgrey;
+        cursor: not-allowed;
+    }
+}

@@ -1,6 +1,10 @@
 // src/pages/Home.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function Home() {
   const [members, setMembers] = useState([]);
@@ -29,9 +33,12 @@ export default function Home() {
 
   return (
     <div className="home">
-      <h1>🕒 SpeakTalk</h1>
+      <Header />
+      <p>Bienvenue sur SpeakTime, une application qui permet de contrôler le temps total, pour prendre le temps pour chaque personne.</p>
+      <main>
+        <h2>Planifie ta réunion</h2>
       <div>
-        <label>Durée de la réunion :</label>
+        <label>Combien de temps dure ta réunion ?</label>
         <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
           <input
             type="number"
@@ -52,15 +59,15 @@ export default function Home() {
       </div>
 
       <div>
-        <label>Ajouter un membre :</label>
+        <label>Combien de personnes ? Et qui est présent ?</label>
         <div style={{ display: "flex", gap: "10px" }}>
           <input
             type="text"
             value={newMember}
             onChange={(e) => setNewMember(e.target.value)}
-            placeholder="Nom du membre"
+            placeholder="Nom/Prénom/Pseudo"
           />
-          <button onClick={handleAddMember}>Ajouter</button>
+          <button className="btn-add" onClick={handleAddMember}><FontAwesomeIcon icon={faPlus} /></button>
         </div>
 
         <ul>
@@ -70,9 +77,11 @@ export default function Home() {
         </ul>
       </div>
 
-      <button onClick={handleStart} style={{ marginTop: "20px" }}>
-        🚀 C’est parti !
+      <button className="btn-main" onClick={handleStart}>
+        C’est parti !
       </button>
+      </main>
+
     </div>
   );
 }
