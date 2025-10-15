@@ -1,5 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.btn-remove {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: #5664E3;
+}
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: #5664E3;
+}
+
 header {
   display: flex;
   flex-direction: row;
@@ -36,6 +60,18 @@ header .header-content h1 {
   }
 }
 
+.btn-remove {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: #5664E3;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
@@ -46,6 +82,9 @@ body {
   max-width: 100%;
   margin: 0 auto;
   background-color: #F7F9FF;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .App {
@@ -74,13 +113,13 @@ main {
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   margin-top: 30px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 .btn-main:hover {
-  background-color: rgb(42.2487309645, 59.8730964467, 219.7512690355);
+  transform: scale(1.2);
 }
 .btn-main:disabled {
   background-color: grey;
@@ -112,7 +151,7 @@ main {
 .btn-add {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: #F7F9FF;
+  background: transparent;
   color: #5664E3;
   font-size: 17px;
   border-radius: 5px;
@@ -167,6 +206,20 @@ section {
 }
 .container .container-add input {
   width: 100%;
+}
+
+.member-container {
+  display: flex;
+  align-items: center;
+}
+.member-container .member-item {
+  background-color: #5664E3;
+  color: white;
+  padding: 5px 7px;
+  margin: 5px 0;
+  display: flex;
+  width: 100%;
+  border-radius: 5px;
 }
 
 /*# sourceMappingURL=style.css.map */

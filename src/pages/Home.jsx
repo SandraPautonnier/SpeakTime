@@ -58,8 +58,8 @@ export default function Home() {
               <label>Participants :</label>
               <div>
                 {members.map((m, i) => (
-                  <div key={i}>
-                    <span style={{ fontWeight: "bold" }}>{m}</span>
+                  <div key={i} className="member-container">
+                    <span className="member-item">{m}</span>
                     <button className="btn-add" onClick={() => handleRemoveMember(i)}>
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
@@ -71,9 +71,10 @@ export default function Home() {
                     value={newMember}
                     onChange={(e) => setNewMember(e.target.value)}
                     placeholder="Nom/Prénom/Pseudo"
+                    onKeyDown={e => { if (e.key === "Enter") handleAddMember(); }}
                   />
                   <button className="btn-add" onClick={handleAddMember}>
-                    <FontAwesomeIcon icon={faPlus} className="icon-gradient" />
+                    <FontAwesomeIcon icon={faPlus} />
                   </button>
                 </div>
               </div>

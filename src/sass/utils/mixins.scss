@@ -1,4 +1,3 @@
-
 @mixin flex-column-center {
     display: flex;
     flex-direction: column;
@@ -21,14 +20,14 @@
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 30px;
-    
+
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
 
     &:hover {
-        background-color: darken($primary-color, 10%);
+        transform: scale(1.2);
     }
 
     &:disabled {
@@ -64,7 +63,7 @@
 @mixin button-add {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    background: $background-color;
+    background: transparent;
     color: $primary-color;
     font-size: 17px;
     border-radius: 5px;
@@ -72,6 +71,7 @@
     cursor: pointer;
     border: none;
     transition: transform 0.2s ease-in-out;
+
     &:hover {
         transform: scale(1.2);
     }
@@ -81,5 +81,18 @@
         color: darkgrey;
         border-color: darkgrey;
         cursor: not-allowed;
+    }
+}
+
+.btn-remove {
+    background: transparent;
+    border: none;
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.2);
+        color: $primary-color;
     }
 }
