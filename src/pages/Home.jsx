@@ -3,14 +3,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Home() {
   const [members, setMembers] = useState([]);
   const [newMember, setNewMember] = useState("");
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [duration, setDuration] = useState("00:00");
   const navigate = useNavigate();
 
   const handleAddMember = () => {
@@ -20,66 +19,70 @@ export default function Home() {
     }
   };
 
+  const handleRemoveMember = (index) => {
+    const updated = members.filter((_, i) => i !== index);
+    setMembers(updated);
+  };
+
   const handleStart = () => {
-    const totalSeconds = (parseInt(hours) * 3600) + (parseInt(minutes) * 60);
+    const [hours, minutes] = duration.split(":").map(Number);
+    const totalSeconds = (hours * 3600) + (minutes * 60);
     if (totalSeconds > 0 && members.length > 0) {
       navigate("/meeting", {
         state: { members, totalSeconds },
       });
     } else {
-      alert("Ajoute au moins un membre et un temps de réunion !");
+      alert("Ajoute au moins un membre et une durée de réunion !");
     }
   };
 
   return (
     <div className="home">
       <Header />
-      <p>Bienvenue sur SpeakTime, une application qui permet de contrôler le temps total, pour prendre le temps pour chaque personne.</p>
+      <p>Bienvenue sur SpeakTime, l’application qui vous aide à gérer le temps de parole pendant vos réunions !</p>
       <main>
-        <h2>Planifie ta réunion</h2>
-      <div>
-        <label>Combien de temps dure ta réunion ?</label>
-        <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-          <input
-            type="number"
-            min="0"
-            value={hours}
-            onChange={(e) => setHours(e.target.value)}
-            placeholder="Heures"
-          />
-          <input
-            type="number"
-            min="0"
-            max="59"
-            value={minutes}
-            onChange={(e) => setMinutes(e.target.value)}
-            placeholder="Minutes"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label>Combien de personnes ? Et qui est présent ?</label>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            type="text"
-            value={newMember}
-            onChange={(e) => setNewMember(e.target.value)}
-            placeholder="Nom/Prénom/Pseudo"
-          />
-          <button className="btn-add" onClick={handleAddMember}><FontAwesomeIcon icon={faPlus} /></button>
-        </div>
-
-        <ul>
-          {members.map((m, i) => (
-            <li key={i}>{m}</li>
-          ))}
-        </ul>
-      </div>
-
-      <button className="btn-main" onClick={handleStart}>
-        C’est parti !
-      </button>
+        <section>
+          <h2>Prêt-e à lancer la réunion ?</h2>
+          <div className="container">
+            <div className="container-input">
+              <label>Durée totale :</label>
+              <input
+                type="time"
+                value={duration}
+                onChange={e => setDuration(e.target.value)}
+                step="60"
+                required
+              />
+            </div>
+            <div className="container-input">
+              <label>Participants :</label>
+              <div>
+                {members.map((m, i) => (
+                  <div key={i}>
+                    <span style={{ fontWeight: "bold" }}>{m}</span>
+                    <button className="btn-add" onClick={() => handleRemoveMember(i)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                ))}
+                <div className="container-add">
+                  <input
+                    type="text"
+                    value={newMember}
+                    onChange={(e) => setNewMember(e.target.value)}
+                    placeholder="Nom/Prénom/Pseudo"
+                  />
+                  <button className="btn-add" onClick={handleAddMember}>
+                    <FontAwesomeIcon icon={faPlus} className="icon-gradient" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button className="btn-main" onClick={handleStart}>
+            C’est parti !
+          </button>
+        </section>
       </main>
 
     </div>

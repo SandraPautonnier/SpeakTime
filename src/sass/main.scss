@@ -6,9 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-* {
-    color: $primary-color;
-}
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
@@ -20,22 +18,23 @@ body {
     width: 1240px;
     max-width: 100%;
     margin: 0 auto;
+    background-color: $background-color;
 }
 .App {
     padding: 30px;
 }
 
-p, label, input, select, textarea {
+p, label, input, select, textarea, ul, li, span {
     font-family: 'Inter', sans-serif;
     font-weight: normal;
 }
 
-main {
-    @include flex-column-center();
+span {
+    font-weight: bold
 }
 
-button {
-    margin-top: 20px
+main {
+    @include flex-column-center();
 }
 
 .btn-main {
@@ -48,4 +47,41 @@ button {
 
 .btn-add {
     @include button-add();
+}
+
+input {
+    height: 35px;
+    
+    margin: 5px 0px;
+    padding: 0px 7px;
+    border-radius: 5px;
+    border: 2px solid lightgrey;
+}
+
+input:focus {
+    outline: none;
+    border: 2px solid $primary-color;
+}
+
+section {
+    @include flex-column-center();
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    .container-input {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    .container-add {
+        display: flex;
+        justify-content: space-between;
+        input {
+            width: 100%;
+        }
+    }
 }

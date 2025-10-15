@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 export default function Meeting() {
   const location = useLocation();
@@ -70,56 +71,58 @@ export default function Meeting() {
 
   return (
     <div className="meeting">
-      <h1>🕒 SpeakTalk</h1>
-      <p>
-        ⏱️ Temps restant : <strong>{formatTime(remainingTime)}</strong>
-      </p>
-
-      {overtime > 0 && (
-        <p style={{ color: "red" }}>
-          ⚠️ Dépassement total : {formatTime(overtime)}
+      <Header />
+      <main>
+        <p>
+          ⏱️ Temps restant : <strong>{formatTime(remainingTime)}</strong>
         </p>
-      )}
 
-      <div style={{ marginTop: "20px" }}>
-        {memberTimes.map((member, i) => {
-          const percent = Math.min((member.time / timePerMember) * 100, 100);
-          const over = member.time > timePerMember;
+        {overtime > 0 && (
+          <p style={{ color: "red" }}>
+            ⚠️ Dépassement total : {formatTime(overtime)}
+          </p>
+        )}
 
-          return (
-            <div key={i} style={{ marginBottom: "15px" }}>
-              <h3>
-                {member.name}{" "}
-                {over && <span style={{ color: "red" }}>🚨</span>}
-              </h3>
-              <div
-                style={{
-                  height: "15px",
-                  background: "#ddd",
-                  borderRadius: "5px",
-                  overflow: "hidden",
-                  position: "relative",
-                }}
-              >
+        <div style={{ marginTop: "20px" }}>
+          {memberTimes.map((member, i) => {
+            const percent = Math.min((member.time / timePerMember) * 100, 100);
+            const over = member.time > timePerMember;
+
+            return (
+              <div key={i} style={{ marginBottom: "15px" }}>
+                <h3>
+                  {member.name}{" "}
+                  {over && <span style={{ color: "red" }}>🚨</span>}
+                </h3>
                 <div
                   style={{
-                    width: `${percent}%`,
-                    height: "100%",
-                    background: over ? "red" : "#4caf50",
-                    transition: "width 0.3s ease",
+                    height: "15px",
+                    background: "#ddd",
+                    borderRadius: "5px",
+                    overflow: "hidden",
+                    position: "relative",
                   }}
-                />
+                >
+                  <div
+                    style={{
+                      width: `${percent}%`,
+                      height: "100%",
+                      background: over ? "red" : "#4caf50",
+                      transition: "width 0.3s ease",
+                    }}
+                  />
+                </div>
+                <p>
+                  {formatTime(member.time)} / {formatTime(timePerMember)}
+                </p>
+                <button onClick={() => toggleSpeaking(i)}>
+                  {member.speaking ? "⏸️ Stop" : "▶️ Parle"}
+                </button>
               </div>
-              <p>
-                {formatTime(member.time)} / {formatTime(timePerMember)}
-              </p>
-              <button onClick={() => toggleSpeaking(i)}>
-                {member.speaking ? "⏸️ Stop" : "▶️ Parle"}
-              </button>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      </main>
     </div>
   );
 }

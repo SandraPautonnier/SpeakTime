@@ -5,6 +5,7 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  color: #5664E3;
   margin-bottom: 20px;
 }
 header .header-content {
@@ -13,13 +14,26 @@ header .header-content {
   align-items: center;
   gap: 10px;
 }
-
-.logo {
+header .header-content .logo {
   max-width: 50px;
 }
-
-* {
-  color: #5664E3;
+@media (max-width: 479px) {
+  header .header-content .logo {
+    width: 30px;
+  }
+}
+header .header-content h1 {
+  font-size: 2rem;
+}
+@media (max-width: 479px) {
+  header .header-content h1 {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 479px) {
+  header button {
+    display: none;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,15 +45,20 @@ body {
   width: 1240px;
   max-width: 100%;
   margin: 0 auto;
+  background-color: #F7F9FF;
 }
 
 .App {
   padding: 30px;
 }
 
-p, label, input, select, textarea {
+p, label, input, select, textarea, ul, li, span {
   font-family: "Inter", sans-serif;
   font-weight: normal;
+}
+
+span {
+  font-weight: bold;
 }
 
 main {
@@ -48,19 +67,15 @@ main {
   align-items: center;
 }
 
-button {
-  margin-top: 20px;
-}
-
 .btn-main {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: #7a52b3;
   background: linear-gradient(90deg, #5664E3 0%, #ff914d 100%);
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
+  margin-top: 30px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -75,7 +90,7 @@ button {
 .btn-secondary {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: white;
+  background: #F7F9FF;
   color: #5664E3;
   border: 2px solid #5664E3;
   padding: 10px 20px;
@@ -97,24 +112,61 @@ button {
 .btn-add {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: white;
+  background: #F7F9FF;
   color: #5664E3;
-  border: none;
-  padding: 10px 20px;
+  font-size: 17px;
   border-radius: 5px;
+  margin: 0px 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  transition: transform 0.2s ease-in-out;
 }
 .btn-add:hover {
-  background-color: #5664E3;
-  color: white;
-  border-color: #5664E3;
+  transform: scale(1.2);
 }
 .btn-add:disabled {
   background-color: lightgrey;
   color: darkgrey;
   border-color: darkgrey;
   cursor: not-allowed;
+}
+
+input {
+  height: 35px;
+  margin: 5px 0px;
+  padding: 0px 7px;
+  border-radius: 5px;
+  border: 2px solid lightgrey;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #5664E3;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+.container .container-input {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.container .container-add {
+  display: flex;
+  justify-content: space-between;
+}
+.container .container-add input {
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */

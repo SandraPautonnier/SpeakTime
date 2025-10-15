@@ -1,16 +1,31 @@
 @import "../utils/mixins";
+@import "../utils/variables";
 
 header {
     @include flex-row-between();
+    color: $primary-color;
     margin-bottom: 20px;
     .header-content {
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 10px;
+        .logo {
+            max-width: 50px;
+            @media (max-width: 479px) {
+            width: 30px;
+            }
+        }
+        h1 {
+            font-size: 2rem;
+            @media (max-width: 479px) {
+            font-size: 1.5rem;
+            }
+        }
     }
-}
-
-.logo {
-    max-width: 50px;
+    button {
+        @media (max-width: 479px) {
+        display: none;
+        }
+    }   
 }
