@@ -61,6 +61,7 @@ header .header-logo h1 {
   }
 }
 header .banner {
+  margin-top: 30px;
   height: 100%;
   width: 100%;
   color: #5664E3;
@@ -83,7 +84,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 200px 0;
+  padding: 120px 0;
   margin-top: 50px;
 }
 
