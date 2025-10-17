@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [members, setMembers] = useState([]);
@@ -39,7 +39,6 @@ export default function Home() {
   return (
     <div className="home">
       <Header />
-      <p>Bienvenue sur SpeakTime, l’application qui vous aide à gérer le temps de parole pendant vos réunions !</p>
       <main>
         <section>
           <h2>Prêt-e à lancer la réunion ?</h2>
@@ -51,6 +50,7 @@ export default function Home() {
                 value={duration}
                 onChange={e => setDuration(e.target.value)}
                 step="60"
+                placeholder="hh:mm"
                 required
               />
             </div>
@@ -85,7 +85,7 @@ export default function Home() {
           </button>
         </section>
       </main>
-
+      <Footer />
     </div>
   );
 }

@@ -2,10 +2,13 @@
 @import "../utils/variables";
 
 header {
-    @include flex-row-between();
+    
     color: $primary-color;
-    margin-bottom: 20px;
-    .header-content {
+    
+    .header-nav {
+        @include flex-row-between();
+    }
+    .header-logo {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -27,5 +30,19 @@ header {
         @media (max-width: 479px) {
         display: none;
         }
-    }   
+    }
+    .banner {
+        height: 100%;
+        width: 100%;
+        color: $primary-color;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        p {
+            padding: 0 20px;
+            text-align: center;
+        }
+    }
 }
