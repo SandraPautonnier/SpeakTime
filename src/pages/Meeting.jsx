@@ -1,123 +1,232 @@
-import { useEffect, useState } from "react";
+// src/pages/Meeting.jsx
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 
 export default function Meeting() {
-  const location = useLocation();
+  const { state } = useLocation();
   const navigate = useNavigate();
-  const { members = [], totalSeconds = 0 } = location.state || {};
 
-  // Temps total restant
-  const [remainingTime, setRemainingTime] = useState(totalSeconds);
+  // récupération depuis location.state (venu de la page Setup/Home)
+  const members = (state && state.members) || [];
+  const totalSeconds = (state && state.totalSeconds) || 0;
 
-  // Temps de parole individuel
-  const [memberTimes, setMemberTimes] = useState(
-    members.map((m) => ({
-      name: m,
-      time: 0, // en secondes
-      speaking: false,
+  const [timeLeft, setTimeLeft] = useState(totalSeconds);
+  const intervalRef = useRef(null);
+
+  // initialisation des participants
+  const [speakers, setSpeakers] = useState(() =>
+    members.map((name) => ({
+      name,
+      time: 0, // temps déjà parlé (s)
+      isSpeaking: false,
+      hasSpoken: false, // devient true dès qu'il/elle a parlé >=1s
     }))
   );
 
-  // Temps imparti par membre
-  const timePerMember = totalSeconds / members.length;
-
-  // Chronomètre général
+  // sécurité : si on arrive sans données -> back to home
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Si le temps total est écoulé → fin
-      setRemainingTime((prev) => {
-        if (prev <= 0) {
-          clearInterval(interval);
-          navigate("/summary", { state: { memberTimes, totalSeconds } });
-          return 0;
-        }
-        return prev - 1;
-      });
+    if (!members.length || !totalSeconds) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      // Incrémente le temps de celui/celle qui parle
-      setMemberTimes((prev) =>
-        prev.map((member) =>
-          member.speaking
-            ? { ...member, time: member.time + 1 }
-            : member
-        )
-      );
-    }, 1000);
+  // valeur initiale par membre (en secondes)
+  const initialPerMember = members.length > 0 ? totalSeconds / members.length : 0;
 
-    return () => clearInterval(interval);
-  }, [navigate, totalSeconds]);
+  // utilitaire format mm:ss
+  const formatTime = (s) => {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${m}:${String(sec).padStart(2, "0")}`;
+  };
 
-  // Démarrer / arrêter le chrono pour un membre
+  // Start global timer si au moins un isSpeaking === true
+  useEffect(() => {
+    const someoneSpeaking = speakers.some((s) => s.isSpeaking);
+    if (someoneSpeaking && !intervalRef.current) {
+      intervalRef.current = setInterval(() => {
+        setTimeLeft((t) => Math.max(0, t - 1));
+
+        setSpeakers((prev) => {
+          // on incrémente le temps du·de la qui parle
+          const next = prev.map((p) => {
+            if (p.isSpeaking) {
+              return {
+                ...p,
+                time: p.time + 1,
+                hasSpoken: true, // marque qu'il/elle a parlé
+              };
+            }
+            return p;
+          });
+          return next;
+        });
+      }, 1000);
+    }
+
+    // Si plus personne ne parle, on stoppe l'interval
+    if (!someoneSpeaking && intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [speakers]);
+
+  // Fin de réunion : quand timeLeft atteint 0 -> summary
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      // arrête tout et redirige vers summary
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      navigate("/summary", { state: { memberTimes: speakers, totalSeconds } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeLeft]);
+
+  // Toggle speaking pour un participant
   const toggleSpeaking = (index) => {
-    setMemberTimes((prev) =>
-      prev.map((m, i) => ({
-        ...m,
-        speaking: i === index ? !m.speaking : false,
+    setSpeakers((prev) =>
+      prev.map((p, i) => ({
+        ...p,
+        isSpeaking: i === index ? !p.isSpeaking : false,
       }))
     );
   };
 
-  // Calcul du dépassement global
-  const totalSpoken = memberTimes.reduce((acc, m) => acc + m.time, 0);
-  const overtime = Math.max(0, totalSpoken - totalSeconds);
+  // === LOGIQUE D'ALLOCATION DYNAMIQUE ===
+  // On veut : si personne n'a encore parlé -> allocation = initialPerMember
+  // Sinon : pour les participants qui n'ont PAS encore parlé (hasSpoken === false),
+  // on calcule : remainingToAllocate = totalSeconds - sum(time of those who HAVE spoken)
+  // allocationForNotYetSpoken = remainingToAllocate / count_not_yet_spoken
 
-  // Formater le temps en mm:ss
-  const formatTime = (t) => {
-    const m = Math.floor(t / 60);
-    const s = t % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
+  // somme des temps parlés par ceux qui ont déjà parlé
+  const sumSpokenByHasSpoken = speakers
+    .filter((s) => s.hasSpoken)
+    .reduce((acc, s) => acc + s.time, 0);
+
+  const notYetSpokenCount = speakers.filter((s) => !s.hasSpoken).length;
+
+  // si personne n'a encore parlé -> allocation = initialPerMember
+  // sinon on répartit entre ceux qui n'ont pas encore parlé
+  const allocationForNotYetSpoken =
+    notYetSpokenCount > 0
+      ? Math.max(0, Math.floor((totalSeconds - sumSpokenByHasSpoken) / notYetSpokenCount))
+      : 0;
+
+  // pour affichage, on calcule pour chaque participant :
+  // - si hasSpoken === false => allocation = initialPerMember (si personne n'a parlé) ou allocationForNotYetSpoken (si quelqu'un a parlé)
+  // - si hasSpoken === true => on affiche le temps déjà parlé + si dépassement on l'indique
+
+  // Calcul du dépassement global (pour info)
+  const totalSpoken = speakers.reduce((acc, s) => acc + s.time, 0);
+  const globalOvertime = Math.max(0, totalSpoken - totalSeconds);
 
   return (
-    <div className="meeting">
+    <div className="meeting" style={{ padding: 20 }}>
       <Header />
       <main>
-        <p>
-          ⏱️ Temps restant : <strong>{formatTime(remainingTime)}</strong>
-        </p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <div>
+            <h1 style={{ margin: 0 }}>⏳ SpeakTime</h1>
+            <div style={{ marginTop: 6 }}>
+              Temps total restant : <strong>{formatTime(timeLeft)}</strong>
+            </div>
+            {globalOvertime > 0 && (
+              <div style={{ color: "red", marginTop: 6 }}>
+                ⚠️ Dépassement global : {formatTime(globalOvertime)}
+              </div>
+            )}
+          </div>
 
-        {overtime > 0 && (
-          <p style={{ color: "red" }}>
-            ⚠️ Dépassement total : {formatTime(overtime)}
-          </p>
-        )}
+          <div>
+            <button
+              onClick={() => {
+                // Pause/Resume global simple: si quelqu'un parle, on stoppe tout ; sinon on ne fait rien
+                // (on garde l'UX simple : on lance via boutons "Parle")
+                setSpeakers((prev) => prev.map((p) => ({ ...p, isSpeaking: false })));
+              }}
+              style={{ padding: "8px 12px", borderRadius: 6, cursor: "pointer" }}
+            >
+              ⏸ Pause
+            </button>
+          </div>
+        </div>
 
-        <div style={{ marginTop: "20px" }}>
-          {memberTimes.map((member, i) => {
-            const percent = Math.min((member.time / timePerMember) * 100, 100);
-            const over = member.time > timePerMember;
+        <div
+          style={{
+            marginTop: 20,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 16,
+          }}
+        >
+          {speakers.map((s, i) => {
+            const isNotYetSpoken = !s.hasSpoken;
+            const allocation = isNotYetSpoken
+              ? (sumSpokenByHasSpoken === 0 ? Math.floor(initialPerMember) : allocationForNotYetSpoken)
+              : Math.floor(initialPerMember); // pour ceux qui ont déjà parlé, l'initialPerMember sert de référence
+
+            const over = s.time > initialPerMember;
+            const remainingForThis = isNotYetSpoken
+              ? allocation // c'est le temps qui leur est alloué maintenant
+              : Math.max(0, Math.floor(initialPerMember - Math.min(s.time, initialPerMember))); // si déjà parlé, on montre combien il 'avait' en départ (pour l'info)
 
             return (
-              <div key={i} style={{ marginBottom: "15px" }}>
-                <h3>
-                  {member.name}{" "}
-                  {over && <span style={{ color: "red" }}>🚨</span>}
-                </h3>
-                <div
-                  style={{
-                    height: "15px",
-                    background: "#ddd",
-                    borderRadius: "5px",
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                >
-                  <div
+              <div
+                key={i}
+                style={{
+                  padding: 12,
+                  borderRadius: 10,
+                  border: "1px solid #eee",
+                  background: s.isSpeaking ? "#eef6ff" : "#fff",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <strong>{s.name}</strong>
+                  <button
+                    onClick={() => toggleSpeaking(i)}
                     style={{
-                      width: `${percent}%`,
-                      height: "100%",
-                      background: over ? "red" : "#4caf50",
-                      transition: "width 0.3s ease",
+                      padding: "6px 10px",
+                      borderRadius: 8,
+                      border: "none",
+                      cursor: "pointer",
+                      background: s.isSpeaking ? "#e53e3e" : "#3182ce",
+                      color: "white",
                     }}
-                  />
+                  >
+                    {s.isSpeaking ? "Stop" : "Parle"}
+                  </button>
                 </div>
-                <p>
-                  {formatTime(member.time)} / {formatTime(timePerMember)}
-                </p>
-                <button onClick={() => toggleSpeaking(i)}>
-                  {member.speaking ? "⏸️ Stop" : "▶️ Parle"}
-                </button>
+
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ fontSize: 13, color: over ? "red" : "#333" }}>
+                    Déjà parlé : <strong>{formatTime(s.time)}</strong>
+                    {s.time > 0 && <span style={{ marginLeft: 8, fontSize: 12, color: "#555" }}>{s.hasSpoken ? " (a déjà parlé)" : ""}</span>}
+                  </div>
+
+                  <div style={{ marginTop: 8, fontSize: 13, color: "#555" }}>
+                    Allocation actuelle pour {isNotYetSpoken ? "ceux qui n'ont pas encore parlé" : "info"} :
+                    <strong style={{ marginLeft: 8 }}>
+                      {formatTime(allocation)}
+                    </strong>
+                  </div>
+
+                  {over && (
+                    <div style={{ marginTop: 8, color: "red", fontWeight: 600 }}>
+                      🚨 A dépassé de {formatTime(Math.floor(s.time - initialPerMember))}
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
