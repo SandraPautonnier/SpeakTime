@@ -1,3 +1,9 @@
 @import "../utils/mixins";
 @import "../utils/variables";
 
+.introduction {
+    text-align: center;
+    p {
+        max-width: 600px;
+    }
+}

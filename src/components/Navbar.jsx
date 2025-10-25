@@ -1,6 +1,7 @@
 import Logo from "../assets/Logo_SpeakTime.png"
+import { useNavigate, Link  } from 'react-router-dom';
 
-const Header = () => {
+const Navbar = () => {
   return (
     <header>
       <div className="header-nav">
@@ -9,15 +10,16 @@ const Header = () => {
             <h1>SpeakTime</h1>
         </div>
         <nav>
+          <ul>
+            <li><Link to="/">Accueil</Link></li>
+            <li><Link to="/signin">Se Connecter</Link></li>
+            <li><Link to="/register">S'inscrire</Link></li>
+          </ul>
           <button className="btn-secondary">À Propos</button>
         </nav>
-      </div>
-      <div className="banner">
-        <h2>Bienvenue sur SpeakTime</h2>
-        <p>L’application qui vous aide à gérer le temps de parole pendant vos réunions !</p>
       </div>
     </header>
   )
 }
 
-export default Header
+export default Navbar;

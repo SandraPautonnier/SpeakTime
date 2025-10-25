@@ -1,10 +1,10 @@
 // src/pages/Home.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [members, setMembers] = useState([]);
@@ -38,8 +38,12 @@ export default function Home() {
 
   return (
     <div className="home">
-      <Header />
+      <Navbar />
       <main>
+        <section className="introduction">
+          <h2>Gérez le temps de parole de vos réunions en toute simplicité</h2>
+          <p>Avec SpeakTime, donnez à chacun la parole équitablement. Fixez la durée, ajoutez vos participants, et laissez l’application répartir le temps de parole automatiquement.</p>
+        </section>
         <section>
           <h2>Prêt-e à lancer la réunion ?</h2>
           <div className="container">
