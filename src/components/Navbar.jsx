@@ -10,12 +10,11 @@ const Navbar = () => {
             <h1>SpeakTime</h1>
         </div>
         <nav>
-          <ul>
-            <li><Link to="/">Accueil</Link></li>
-            <li><Link to="/signin">Se Connecter</Link></li>
-            <li><Link to="/register">S'inscrire</Link></li>
+          <ul className="nav-container">
+            <li><Link className="nav-link" to="/">Accueil</Link></li>
+            <li><Link className="nav-link" to="/signin">Se Connecter</Link></li>
+            <li><Link className="nav-link" to="/register">S'inscrire</Link></li>
           </ul>
-          <button className="btn-secondary">À Propos</button>
         </nav>
       </div>
     </header>

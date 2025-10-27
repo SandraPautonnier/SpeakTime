@@ -1,6 +1,6 @@
 @import "./utils/variables.scss";
 @import "./utils/mixins.scss";
-@import "./layout/header.scss";
+@import "./layout/navbar.scss";
 @import "./layout/footer.scss";
 @import "./pages/home.scss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
@@ -22,12 +22,17 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
-.App {
-    display: flex;
-    flex-direction: column;
-    
+
+body, html {
+    padding: 0;
+    height: 100%;
 }
-header, main {
+
+.App {
+    @include window-page();
+}
+
+main {
     margin: 30px auto;
     max-width: 1240px;
     padding: 0 30px;
@@ -42,8 +47,20 @@ p, label, input, select, textarea, ul, li, span {
     font-weight: normal;
 }
 
+ul {
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
 span {
     font-weight: bold
+}
+
+a {
+    text-decoration: none;
 }
 
 main {
@@ -54,7 +71,7 @@ main {
     @include button-main();
 }
 
-.btn-secondary {
+.nav-link {
     @include button-secondary();
 }
 

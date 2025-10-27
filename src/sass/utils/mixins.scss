@@ -1,3 +1,13 @@
+//window page mixin
+@mixin window-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    height: 100%;
+}
+
+//flexbox mixins
 @mixin flex-column-center {
     display: flex;
     flex-direction: column;

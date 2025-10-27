@@ -1,9 +1,12 @@
 @import "../utils/mixins";
 @import "../utils/variables";
 
-.introduction {
+.home {
+    @include window-page();
+    .introduction {
     text-align: center;
     p {
         max-width: 600px;
     }
+}
 }

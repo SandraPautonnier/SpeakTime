@@ -43,6 +43,22 @@ export default function Home() {
         <section className="introduction">
           <h2>Gérez le temps de parole de vos réunions en toute simplicité</h2>
           <p>Avec SpeakTime, donnez à chacun la parole équitablement. Fixez la durée, ajoutez vos participants, et laissez l’application répartir le temps de parole automatiquement.</p>
+          <div>
+            <div>
+              <h3>Mode Non connectée</h3>
+              <ul>
+                <li>Essaie SpeakTime sans te connecter</li>
+                <li></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Mode Connectée</h3>
+              <ul>
+                <li>Créer toi un compte</li>
+                <li></li>
+              </ul>
+            </div>
+          </div>
         </section>
         <section>
           <h2>Prêt-e à lancer la réunion ?</h2>
