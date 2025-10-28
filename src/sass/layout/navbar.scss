@@ -9,6 +9,9 @@ header {
     align-items: stretch;
     padding: 15px 50px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    @media (max-width: 479px) {
+        padding: 10px 20px;
+    }
     .header-nav {
         @include flex-row-between();
         .header-logo {
@@ -60,7 +63,6 @@ header {
                     display: flex;
                     width: 100%;
                     margin: 0;
-                    
                 }
                 
             }
@@ -106,11 +108,10 @@ header {
     .nav-container {
         position: absolute;
         margin-left: 10px;
-        top: 40px;
-        right: 20px;
+        top: 55px;
+        right: 55px;
         flex-direction: column;
         border-radius: 10px;
-        
         opacity: 0;
         visibility: hidden;
         transform: translateY(-20px);
@@ -123,4 +124,11 @@ header {
         
     }
 
+}
+
+@media (max-width: 479px) {
+    .nav-container {
+        right: 20px;
+        top: 50px;
+    }
 }

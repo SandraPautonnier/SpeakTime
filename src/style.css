@@ -33,6 +33,11 @@ header {
   padding: 15px 50px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+@media (max-width: 479px) {
+  header {
+    padding: 10px 20px;
+  }
+}
 header .header-nav {
   display: flex;
   flex-direction: row;
@@ -156,8 +161,8 @@ header nav .nav-container .nav-link:disabled {
   .nav-container {
     position: absolute;
     margin-left: 10px;
-    top: 40px;
-    right: 20px;
+    top: 55px;
+    right: 55px;
     flex-direction: column;
     border-radius: 10px;
     opacity: 0;
@@ -169,6 +174,12 @@ header nav .nav-container .nav-link:disabled {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+  }
+}
+@media (max-width: 479px) {
+  .nav-container {
+    right: 20px;
+    top: 50px;
   }
 }
 footer {
@@ -289,7 +300,7 @@ section {
   margin: 30px 0;
 }
 
-p, label, input, select, textarea, ul, li, span {
+p, label, input, select, textarea, ul, li, span, button {
   font-family: "Inter", sans-serif;
   font-weight: normal;
 }
@@ -378,6 +389,17 @@ section {
   flex-direction: column;
   align-items: center;
 }
+@media (max-width: 600px) {
+  section {
+    width: 100%;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .container {
   display: flex;
@@ -385,10 +407,17 @@ section {
   gap: 15px;
   width: 100%;
 }
-.container .container-input {
+.container .form-group {
   display: flex;
   flex-direction: column;
   gap: 7px;
+  min-width: 390px;
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .container .form-group {
+    min-width: none;
+  }
 }
 .container .container-add {
   display: flex;

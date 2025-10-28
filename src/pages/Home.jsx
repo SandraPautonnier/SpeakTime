@@ -61,7 +61,7 @@ export default function Home() {
         <section>
           <h2>Prêt-e à lancer votre réunion ?</h2>
           <div className="container">
-            <div className="container-input">
+            <div className="form-group">
               <label>Durée totale :</label>
               <input
                 type="time"
@@ -72,7 +72,7 @@ export default function Home() {
                 required
               />
             </div>
-            <div className="container-input">
+            <div className="form-group">
               <label>Participants :</label>
               <div>
                 {members.map((m, i) => (
