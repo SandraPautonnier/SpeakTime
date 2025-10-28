@@ -1,12 +1,13 @@
 import React from 'react'
+import Logo from "../assets/Logo_SpeakTime.png";
 
 const Footer = () => {
   return (
     <footer>
-      <div className="banner">
-        <p>Speaktime, l’application qui vous aide à gérer le temps de parole pendant vos réunions !</p>
-      </div>
-        <p>© 2025 SpeakTime. Tous droits réservés.</p>
+      <img src={Logo} alt="Logo SpeakTime" />
+      <h2>SpeakTime</h2>
+      <p>L’application qui vous aide à gérer le temps de parole pendant vos réunions !</p>
+      <p>Mentions Légales © 2025 SpeakTime. Tous droits réservés.</p>
     </footer>
   )
 }
