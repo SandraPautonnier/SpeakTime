@@ -1,7 +1,30 @@
-import Logo from "../assets/Logo_SpeakTime.png"
+import Logo from "../assets/Logo_SpeakTime.png";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link  } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseChimney, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef(null);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuOpen && navRef.current && !navRef.current.contains(event.target)) {
+        setMenuOpen(false); 
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
+
   return (
     <header>
       <div className="header-nav">
@@ -9,11 +32,24 @@ const Navbar = () => {
             <img className="logo" src={Logo} alt="Logo SpeakTime" />
             <h1>SpeakTime</h1>
         </div>
-        <nav>
-          <ul className="nav-container">
-            <li><Link className="nav-link" to="/">Accueil</Link></li>
-            <li><Link className="nav-link" to="/signin">Se Connecter</Link></li>
-            <li><Link className="nav-link" to="/register">S'inscrire</Link></li>
+        <nav ref={navRef}>
+          {/* Bouton hamburger */}
+          <div className="hamburger" onClick={toggleMenu}>
+            {menuOpen ? (
+              <span className="close-nav">&times;</span>
+            ) : (
+              <>
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+              </>
+            )}
+          </div>
+          {/* Menu de navigation */}
+          <ul className={`nav-container ${menuOpen ? "open" : ""}`}>
+            <li><Link className="nav-link" to="/" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faHouseChimney} /> Accueil</Link></li>
+            <li><Link className="nav-link" to="/signin" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faUser} /> Se connecter</Link></li>
+            <li><Link className="nav-link" to="/register" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faUser} /> S'inscrire</Link></li>
           </ul>
         </nav>
       </div>

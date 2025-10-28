@@ -19,13 +19,13 @@ header {
         .logo {
             max-width: 50px;
             @media (max-width: 479px) {
-            width: 30px;
+            width: 40px;
             }
         }
         h1 {
             font-size: 1.5rem;
             @media (max-width: 479px) {
-            font-size: 1rem;
+            font-size: 1.2rem;
             }
         }
     }
@@ -34,15 +34,93 @@ header {
         .nav-container {
             @include flex-row-between();
             gap: 15px;
-                @media (max-width: 479px) {
-                display: none;
+            
+            font-size: normal;
+            @media (max-width: 768px) {
+                gap: 0px;
+            }
+            @media (max-width: 992px) {
+                font-size: small;
+            }
+            li {
+                @media (max-width: 768px) {
+                    border: 0px solid transparent;
+                    background: transparent;
+                    display: flex;
+                    width: 100%;
+                    margin: 0;
+                
+                }
+            }
+            .nav-link {
+                @include button-secondary();
+                @media (max-width: 768px) {
+                    border: 0px solid transparent;
+                    background: transparent;
+                    display: flex;
+                    width: 100%;
+                    margin: 0;
+                    
+                }
+                
+            }
+            @media (max-width: 768px) {
+            flex-direction: column;
+            border: 2px solid $primary-color;
+            background: white;
         }
+        }
+        
+    }
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    .bar {
+        background-color: $primary-color;
+        width: 25px;
+        height: 4px;
+        border-radius: 25% / 25%;
+        margin: 2px 0;
+        transition: background-color 0.3s ease;
+    }
+    .close-nav {
+        font-size: 50px;
+        padding: 0;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+        margin: 20px 10px;
+        .close-nav {
+            line-height: 27px;
+            margin: -1.5px -2px;
         }
     }
-    
-    button {
-        @media (max-width: 479px) {
-        display: none;
+    .nav-container {
+        position: absolute;
+        margin-left: 10px;
+        top: 40px;
+        right: 20px;
+        flex-direction: column;
+        border-radius: 10px;
+        
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        &.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0)
         }
+        
     }
+
 }

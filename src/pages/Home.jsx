@@ -1,8 +1,8 @@
 // src/pages/Home.jsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash, faPeopleGroup, faClock } from '@fortawesome/free-solid-svg-icons';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
@@ -43,25 +43,23 @@ export default function Home() {
         <section className="introduction">
           <h2>Gérez le temps de parole de vos réunions en toute simplicité</h2>
           <p>Avec SpeakTime, donnez à chacun la parole équitablement. Fixez la durée, ajoutez vos participants, et laissez l’application répartir le temps de parole automatiquement.</p>
-          <div>
-            <div>
-              <h3>Mode Non connectée</h3>
-              <ul>
-                <li>Essaie SpeakTime sans te connecter</li>
-                <li></li>
-              </ul>
+          <div className="options-container">
+            <div className="option">
+              <FontAwesomeIcon className="icon" icon={faClock} />
+              <h3>Commencez directement</h3>
+              <p>Lancer votre première réunion sans créer de compte. Parfait pour tester SpeakTime !</p>
+              <Link className="btn-main" to="/">Démarrer sans compte</Link>
             </div>
-            <div>
-              <h3>Mode Connectée</h3>
-              <ul>
-                <li>Créer toi un compte</li>
-                <li></li>
-              </ul>
+            <div className="option">
+              <FontAwesomeIcon className="icon" icon={faPeopleGroup} />
+              <h3>Créez un compte</h3>
+              <p>Créez des groupes, nommez les et ajoutez des participants. Retrouvez un historique du temps de parole de vos réunions.</p>
+              <Link className="btn-main"to="/register">Créer un compte</Link>
             </div>
           </div>
         </section>
         <section>
-          <h2>Prêt-e à lancer la réunion ?</h2>
+          <h2>Prêt-e à lancer votre réunion ?</h2>
           <div className="container">
             <div className="container-input">
               <label>Durée totale :</label>

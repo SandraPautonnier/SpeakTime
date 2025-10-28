@@ -40,6 +40,7 @@ main {
 
 section {
     max-width: 1024px;
+    margin: 30px 0;
 }
 
 p, label, input, select, textarea, ul, li, span {
@@ -69,10 +70,6 @@ main {
 
 .btn-main {
     @include button-main();
-}
-
-.nav-link {
-    @include button-secondary();
 }
 
 .btn-add {
