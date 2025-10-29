@@ -66,6 +66,7 @@ header {
                 }
                 
             }
+            
             @media (max-width: 768px) {
             flex-direction: column;
             border: 2px solid $primary-color;
@@ -130,5 +131,12 @@ header {
     .nav-container {
         right: 20px;
         top: 50px;
+    }
+}
+
+.btn-logout {
+    font-size: 16px;
+    @media (max-width: 992px) {
+        font-size: small;
     }
 }

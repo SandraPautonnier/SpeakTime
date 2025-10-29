@@ -45,7 +45,7 @@ function Login() {
     }
 
     try {
-      const success = await login(formData); // login doit renvoyer true/false
+      const success = await login(formData); 
 
       if (success) {
         setSuccessMessage("Connexion réussie 🎉 Bienvenue !");
