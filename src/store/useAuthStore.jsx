@@ -1,36 +1,66 @@
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
-  loading: false,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  token: localStorage.getItem("token") || null,
+  isLoading: false,
   error: null,
-  success: null,
 
-  registerUser: async (userData) => {
-    set({ loading: true, error: null, success: null });
-
+  // 🔹 Inscription
+  register: async (userData) => {
+    set({ isLoading: true, error: null });
     try {
-      const res = await fetch("/api/register", {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
 
-      const data = await res.json();
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Erreur lors de l'inscription");
 
-      if (!res.ok) {
-        throw new Error(data.message || "Erreur serveur.");
-      }
+      // Sauvegarde token + user
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-      set({
-        loading: false,
-        success: "Inscription réussie ! Vérifiez votre email.",
-      });
-    } catch (err) {
-      set({
-        loading: false,
-        error: err.message || "Une erreur est survenue.",
-      });
+      set({ user: data.user, token: data.token, isLoading: false });
+      return data;
+    } catch (error) {
+      console.error("Erreur d'inscription :", error.message);
+      set({ error: error.message, isLoading: false });
     }
+  },
+
+  // 🔹 Connexion
+  login: async (credentials) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Erreur de connexion");
+
+      // Sauvegarde token + user
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      set({ user: data.user, token: data.token, isLoading: false });
+      return data;
+    } catch (error) {
+      console.error("Erreur de connexion :", error.message);
+      set({ error: error.message, isLoading: false });
+    }
+  },
+
+  // 🔹 Déconnexion
+  logout: () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    set({ user: null, token: null, error: null });
   },
 }));
 

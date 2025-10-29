@@ -14,42 +14,58 @@ function Register() {
     confirmPassword: "",
   });
 
-  const [validationError, setValidationError] = useState("");
+  const [formError, setFormError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormError("");
+    setSuccessMessage("");
+  };
+
+  const validateForm = () => {
+    const { username, email, confirmEmail, password, confirmPassword } = formData;
+
+    if (!username || !email || !confirmEmail || !password || !confirmPassword) {
+      return "Tous les champs sont obligatoires.";
+    }
+    if (email !== confirmEmail) {
+      return "Les emails ne correspondent pas.";
+    }
+    if (password !== confirmPassword) {
+      return "Les mots de passe ne correspondent pas.";
+    }
+    if (password.length < 8 || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return "Le mot de passe doit contenir au moins 8 caractères et un caractère spécial.";
+    }
+    if (!email.includes("@")) {
+      return "L'adresse email doit être valide.";
+    }
+    return "";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setValidationError("");
+    setFormError("");
+    setSuccessMessage("");
 
-    // Vérification des emails
-    if (formData.email !== formData.confirmEmail) {
-      setValidationError("Les adresses e-mail ne correspondent pas.");
+    const validationError = validateForm();
+    if (validationError) {
+      setFormError(validationError);
       return;
     }
 
-    // Vérification des mots de passe
-    if (formData.password !== formData.confirmPassword) {
-      setValidationError("Les mots de passe ne correspondent pas.");
-      return;
+    const success = await register(formData);
+    if (success) {
+      setSuccessMessage("Inscription réussie 🎉 Vous pouvez maintenant vous connecter !");
+      setFormData({
+        username: "",
+        email: "",
+        confirmEmail: "",
+        password: "",
+        confirmPassword: "",
+      });
     }
-
-    // Mot de passe sécurisé : au moins 8 caractères + un caractère spécial
-    const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-    if (!passwordRegex.test(formData.password)) {
-      setValidationError(
-        "Le mot de passe doit contenir au moins 8 caractères et un caractère spécial."
-      );
-      return;
-    }
-
-    await register({
-      username: formData.username,
-      email: formData.email,
-      password: formData.password,
-    });
   };
 
   return (
@@ -59,7 +75,7 @@ function Register() {
         <section>
           <div className='container'>
             <h2>Créer un compte</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Nom d'utilisateur</label>
                 <input type="text" name="username" value={formData.username} onChange={handleChange} required placeholder='Username'/>
@@ -80,10 +96,11 @@ function Register() {
                 <label>Confirmer le mot de passe</label>
                 <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} autoComplete="new-password" required placeholder='motdepasse123'/>
               </div>
-              {validationError && (
-                <p className="error-message">{validationError}</p>
-              )}
-              {error && <p className="error-message">{error}</p>}
+
+              {formError && <p className="error">{formError}</p>}
+              {error && <p className="error">{error}</p>}
+              {successMessage && <p className="success">{successMessage}</p>}
+
               <button type="submit" className="btn-main" disabled={isLoading}>
                 {isLoading ? "Création en cours..." : "S'inscrire"}
               </button>

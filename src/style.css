@@ -411,7 +411,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  min-width: 390px;
+  min-width: 380px;
   width: 100%;
 }
 @media (min-width: 600px) {

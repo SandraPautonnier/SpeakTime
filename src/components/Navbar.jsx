@@ -48,7 +48,7 @@ const Navbar = () => {
           {/* Menu de navigation */}
           <ul className={`nav-container ${menuOpen ? "open" : ""}`}>
             <li><Link className="nav-link" to="/" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faHouseChimney} /> Accueil</Link></li>
-            <li><Link className="nav-link" to="/signin" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faUser} /> Se connecter</Link></li>
+            <li><Link className="nav-link" to="/login" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faUser} /> Se connecter</Link></li>
             <li><Link className="nav-link" to="/register" onClick={() => setMenuOpen(false)}><FontAwesomeIcon icon={faUser} /> S'inscrire</Link></li>
           </ul>
         </nav>
