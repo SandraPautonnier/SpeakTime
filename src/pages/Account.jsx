@@ -80,7 +80,7 @@ function Account() {
             <p>Voici vos informations personnelles :</p>
 
             {/* Username */}
-            <div className="field-group">
+            <div className="form-group">
               <label>Nom d'utilisateur</label>
               <input
                 type="text"
@@ -98,7 +98,7 @@ function Account() {
             </div>
 
             {/* Email */}
-            <div className="field-group">
+            <div className="form-group">
               <label>Email</label>
               <input
                 type="email"
@@ -116,7 +116,7 @@ function Account() {
             </div>
 
             {/* Password */}
-            <div className="field-group">
+            <div className="form-group">
               <label>Mot de passe</label>
               {editField === "password" ? (
                 <>
@@ -139,7 +139,7 @@ function Account() {
             {message && <p className="success">{message}</p>}
             {error && <p className="error">{error}</p>}
 
-            <hr className="divider" />
+            
 
             <button onClick={handleDelete} className="btn-delete">
               Supprimer mon compte
