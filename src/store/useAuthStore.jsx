@@ -1,66 +1,63 @@
 import { create } from "zustand";
 
+const API_AUTH = "http://localhost:5000/api/auth";
+const storedUser = localStorage.getItem("user");
+const storedToken = localStorage.getItem("token");
+
 const useAuthStore = create((set) => ({
-  user: JSON.parse(localStorage.getItem("user")) || null,
-  token: localStorage.getItem("token") || null,
-  isLoading: false,
+  user: JSON.parse(storedUser) || null,
+  token: storedToken || null,
+  loading: false,
   error: null,
+  success: null,
 
-  // 🔹 Inscription
-  register: async (userData) => {
-    set({ isLoading: true, error: null });
+  // --- Inscription ---
+  register: async (formData) => {
+    set({ loading: true, error: null, success: null });
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${API_AUTH}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(formData),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur lors de l'inscription");
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Erreur lors de l'inscription");
-
-      // Sauvegarde token + user
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      set({ user: data.user, token: data.token, isLoading: false });
-      return data;
-    } catch (error) {
-      console.error("Erreur d'inscription :", error.message);
-      set({ error: error.message, isLoading: false });
+      set({ success: "Inscription réussie !", loading: false });
+      return true;
+    } catch (err) {
+      set({ error: err.message, loading: false });
+      return false;
     }
   },
 
-  // 🔹 Connexion
-  login: async (credentials) => {
-    set({ isLoading: true, error: null });
+  // --- Connexion ---
+  login: async (formData) => {
+    set({ loading: true, error: null, success: null });
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_AUTH}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify(formData),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Email ou mot de passe incorrect");
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Erreur de connexion");
-
-      // Sauvegarde token + user
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      set({ user: data.user, token: data.token, isLoading: false });
-      return data;
-    } catch (error) {
-      console.error("Erreur de connexion :", error.message);
-      set({ error: error.message, isLoading: false });
+      set({ user: data.user, token: data.token, loading: false });
+      return true;
+    } catch (err) {
+      set({ error: err.message, loading: false });
+      return false;
     }
   },
 
-  // 🔹 Déconnexion
+  // --- Déconnexion ---
   logout: () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    set({ user: null, token: null, error: null });
+    set({ user: null, token: null });
   },
 }));
 

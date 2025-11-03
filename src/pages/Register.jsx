@@ -90,11 +90,11 @@ function Register() {
               </div>
               <div className="form-group">
                 <label>Mot de passe</label>
-                <input type="password" name="password" value={formData.password} onChange={handleChange} autoComplete="new-password" required placeholder='motdepasse123'/>
+                <input type="password" name="password" value={formData.password} onChange={handleChange} autoComplete="new-password" required placeholder='********'/>
               </div>
               <div className="form-group">
                 <label>Confirmer le mot de passe</label>
-                <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} autoComplete="new-password" required placeholder='motdepasse123'/>
+                <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} autoComplete="new-password" required placeholder='********'/>
               </div>
 
               {formError && <p className="error">{formError}</p>}

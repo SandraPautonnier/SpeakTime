@@ -83,7 +83,7 @@ function Login() {
               </div>
               <div className="form-group">
                 <label>Mot de passe</label>
-                <input type="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" required placeholder='motdepasse123'/>
+                <input type="password" name="password" value={formData.password} onChange={handleChange} autoComplete="current-password" required placeholder='********'/>
               </div>
 
               {formError && <p className="error">{formError}</p>}

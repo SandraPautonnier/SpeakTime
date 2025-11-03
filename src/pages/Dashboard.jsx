@@ -2,11 +2,17 @@ import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import useDashboardStore from "../store/useDashboardStore";
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../store/useAuthStore.jsx';
+import useUsersStore from '../store/useUsersStore.jsx';
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuthStore();
+  const { getUserById } = useUsersStore();
 
   const {
-    user,
+  
     groups,
     meetings,
     fetchGroups,
