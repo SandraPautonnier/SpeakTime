@@ -5,8 +5,8 @@ const storedUser = localStorage.getItem("user");
 const storedToken = localStorage.getItem("token");
 
 const useAuthStore = create((set) => ({
-  user: JSON.parse(storedUser) || null,
-  token: storedToken || null,
+  user: storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null,
+  token: storedToken && storedToken !== "undefined" ? storedToken : null,
   loading: false,
   error: null,
   success: null,

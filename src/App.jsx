@@ -6,6 +6,8 @@ import Summary from "./pages/Summary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import CreateGroup from "./pages/CreateGroup";
+import GroupDetail from "./pages/GroupDetail";
 import History from "./pages/History";
 import Account from "./pages/Account";
 import About from "./pages/About";
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/create-group" element={<CreateGroup />} />
+          <Route path="/group/:id" element={<GroupDetail />} />
           <Route path="/history" element={<History />} />
           <Route path="/account" element={<Account />} />
           <Route path="/about" element={<About />} />
