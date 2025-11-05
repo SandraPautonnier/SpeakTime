@@ -24,7 +24,9 @@ const useMeetingsStore = create((set, get) => ({
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération des réunions");
 
-      set({ meetings: data, loading: false });
+      // Le backend retourne { meetings: [...] }
+      const meetingsData = data.meetings || [];
+      set({ meetings: meetingsData, loading: false });
     } catch (err) {
       set({ error: err.message, loading: false });
     }
@@ -72,7 +74,7 @@ const useMeetingsStore = create((set, get) => ({
       if (!res.ok) throw new Error(data.message || "Erreur lors de la création de la réunion");
 
       set((state) => ({
-        meetings: [...state.meetings, data],
+        meetings: [...state.meetings, data.meeting],
         success: "Réunion créée avec succès !",
         loading: false,
       }));

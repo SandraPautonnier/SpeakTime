@@ -38,9 +38,39 @@ function GroupDetail() {
     }
   }, [selectedGroup]);
 
+  // Redirection si accès non-autorisé (403)
+  useEffect(() => {
+    if (error && (error.includes("non autorisé") || error.includes("Accès non"))) {
+      setTimeout(() => navigate('/dashboard'), 2000);
+    }
+  }, [error, navigate]);
+
   if (!user) return <p>Vous n'êtes pas connecté.</p>;
   if (loading && !selectedGroup) return <p>Chargement...</p>;
-  if (!selectedGroup) return <p>Groupe non trouvé.</p>;
+  if (error && (error.includes("non autorisé") || error.includes("Accès non"))) {
+    return (
+      <div>
+        <Navbar />
+        <main style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px', textAlign: 'center' }}>
+          <p style={{ color: 'red', fontSize: '18px' }}>⚠️ {error}</p>
+          <p style={{ color: '#666' }}>Redirection vers le Dashboard dans 2 secondes...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  if (!selectedGroup) return (
+    <div>
+      <Navbar />
+      <main style={{ maxWidth: '800px', margin: '40px auto', padding: '0 20px', textAlign: 'center' }}>
+        <p>Groupe non trouvé.</p>
+        <button onClick={() => navigate('/dashboard')} style={{ backgroundColor: '#007bff', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          Retour au Dashboard
+        </button>
+      </main>
+      <Footer />
+    </div>
+  );
 
   const handleUpdate = async () => {
     let updated = false;

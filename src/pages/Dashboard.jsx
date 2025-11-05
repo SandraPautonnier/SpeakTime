@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import StartMeeting from '../components/StartMeeting.jsx';
 import useGroupsStore from "../store/useGroupsStore";
 import useMeetingsStore from "../store/useMeetingsStore";
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +49,11 @@ function Dashboard() {
           </div>
 
           {error && <p style={{ color: 'red', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '4px', marginBottom: '20px' }}>{error}</p>}
+        </section>
 
+        <StartMeeting isConnected={true} groups={groups} />
+
+        <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
           <h3 style={{ marginBottom: '20px' }}>Mes groupes</h3>
           {groups.length === 0 ? (
             <p style={{ color: '#666', fontSize: '16px' }}>Aucun groupe pour le moment. Créez votre premier groupe !</p>
