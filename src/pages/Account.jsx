@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Account() {
   const navigate = useNavigate();
   const { user: authUser, logout } = useAuthStore(); 
-  const { user, getUserById, updateUser, deleteUser } = useUsersStore(); 
+  const { user, getUserById, updateUser, deleteUser, error: storeError, loading: storeLoading } = useUsersStore(); 
 
   const [editField, setEditField] = useState(""); 
   const [fieldValue, setFieldValue] = useState("");
@@ -25,12 +25,22 @@ function Account() {
 
     const fetchUser = async () => {
       setLoading(true);
-      await getUserById(authUser._id); // update usersStore.user
+      const result = await getUserById(authUser._id); // update usersStore.user
+      if (!result) {
+        setError("Impossible de charger le profil utilisateur");
+      }
       setLoading(false);
     };
 
     fetchUser();
-  }, [authUser, getUserById, navigate]);
+  }, [authUser && authUser._id]); // Dépendance seulement sur authUser._id pour éviter les boucles infinies
+
+  // Afficher l'erreur du store s'il y en a une
+  useEffect(() => {
+    if (storeError) {
+      setError(storeError);
+    }
+  }, [storeError]);
 
   if (!authUser) return null; // sécurité
   if (loading) return <p>Récupération des données du compte…</p>;

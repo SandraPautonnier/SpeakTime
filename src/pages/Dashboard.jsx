@@ -29,7 +29,7 @@ function Dashboard() {
       fetchGroups();
       fetchMeetings();
     }
-  }, [user]);
+  }, [user, fetchGroups, fetchMeetings]);
 
   if (!user) return <p>Vous n'êtes pas connecté.</p>;
 
@@ -40,21 +40,22 @@ function Dashboard() {
         <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
             <h2>Bienvenue {user.username}!</h2>
-            <button
-              onClick={() => navigate('/create-group')}
-              style={{ backgroundColor: '#007bff', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
-            >
-              + Créer un groupe
-            </button>
           </div>
 
-          {error && <p style={{ color: 'red', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '4px', marginBottom: '20px' }}>{error}</p>}
+          {loading && <p style={{ color: '#0066cc', padding: '10px', backgroundColor: '#e6f2ff', borderRadius: '4px', marginBottom: '20px' }}>Chargement des données...</p>}
+          {error && <p style={{ color: 'red', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '4px', marginBottom: '20px' }}>❌ {error}</p>}
         </section>
 
         <StartMeeting isConnected={true} groups={groups} />
 
         <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
           <h3 style={{ marginBottom: '20px' }}>Mes groupes</h3>
+            <button
+              onClick={() => navigate('/create-group')}
+              style={{ backgroundColor: '#007bff', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
+            >
+              + Créer un groupe
+            </button>
           {groups.length === 0 ? (
             <p style={{ color: '#666', fontSize: '16px' }}>Aucun groupe pour le moment. Créez votre premier groupe !</p>
           ) : (

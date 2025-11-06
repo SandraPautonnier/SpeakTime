@@ -20,6 +20,7 @@ const useUsersStore = create((set) => ({
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération de l'utilisateur");
 
+      // Le backend retourne l'utilisateur directement (pas enveloppé)
       set({ user: data, loading: false });
       return data;
     } catch (err) {
