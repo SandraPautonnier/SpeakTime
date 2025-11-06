@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
 
 export default function Summary() {
   const location = useLocation();
@@ -20,8 +22,10 @@ export default function Summary() {
   const overtime = Math.max(0, totalSpoken - totalSeconds);
 
   return (
-    <div className="summary" style={{ maxWidth: "600px", margin: "0 auto" }}>
-      <h1>📋 Résumé de la réunion</h1>
+    <div className="summary">
+      <Navbar />
+      <main>
+        <h2>📋 Résumé de la réunion</h2>
 
       <p>
         ⏱️ Durée prévue : <strong>{formatTime(totalSeconds)}</strong>
@@ -75,20 +79,22 @@ export default function Summary() {
       </div>
 
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/dashboard")}
         style={{
           marginTop: "30px",
           padding: "10px 20px",
           fontSize: "16px",
-          background: "#4caf50",
+          background: "#007bff",
           color: "white",
           border: "none",
           borderRadius: "5px",
           cursor: "pointer",
         }}
       >
-        🔁 Nouvelle réunion
+        ← Retour au tableau de bord
       </button>
+      </main>
+      <Footer />
     </div>
   );
 }

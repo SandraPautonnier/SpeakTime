@@ -2,13 +2,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Navbar";
+import useMeetingsStore from "../store/useMeetingsStore";
 
 export default function Meeting() {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { createMeeting } = useMeetingsStore();
 
   const members = (state && state.members) || [];
   const totalSeconds = (state && state.totalSeconds) || 0;
+  const groupId = (state && state.groupId) || null;
 
   const [timeLeft, setTimeLeft] = useState(totalSeconds);
   const intervalRef = useRef(null);
@@ -79,9 +82,23 @@ export default function Meeting() {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-      navigate("/summary", { state: { memberTimes: speakers, totalSeconds } });
+
+      // Créer le meeting avec les données collectées (avec temps de parole)
+      const meetingData = {
+        groupId: groupId || null,
+        participants: speakers.map((s) => ({
+          name: s.name,
+          speakingTime: s.time,
+        })),
+        duration: totalSeconds,
+      };
+
+      // Créer le meeting et rediriger
+      createMeeting(meetingData).then(() => {
+        navigate("/summary", { state: { memberTimes: speakers, totalSeconds } });
+      });
     }
-  }, [timeLeft, speakers, totalSeconds, navigate]);
+  }, [timeLeft, speakers, totalSeconds, navigate, createMeeting, groupId]);
 
   // Gestion du bouton "Parle"
   const toggleSpeaking = (index) => {
@@ -124,7 +141,7 @@ export default function Meeting() {
           }}
         >
           <div>
-            <h1 style={{ margin: 0 }}>⏳ SpeakTime</h1>
+            <h2>Réunion en cours ...</h2>
             <div style={{ marginTop: 6 }}>
               Temps total restant : <strong>{formatTime(timeLeft)}</strong>
             </div>
