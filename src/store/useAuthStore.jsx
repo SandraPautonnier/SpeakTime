@@ -43,9 +43,15 @@ const useAuthStore = create((set) => ({
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Email ou mot de passe incorrect");
 
+      // Transformer id en _id pour la cohérence
+      const user = { ...data.user };
+      if (user.id && !user._id) {
+        user._id = user.id;
+      }
+
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      set({ user: data.user, token: data.token, loading: false });
+      localStorage.setItem("user", JSON.stringify(user));
+      set({ user, token: data.token, loading: false });
       return true;
     } catch (err) {
       set({ error: err.message, loading: false });

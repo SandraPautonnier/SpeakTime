@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Account() {
   const navigate = useNavigate();
   const { user: authUser, logout } = useAuthStore(); 
-  const { user, getUserById, updateUser, deleteUser, error: storeError, loading: storeLoading } = useUsersStore(); 
+  const { user, getUserById, updateUser, deleteUser, error: storeError } = useUsersStore(); 
 
   const [editField, setEditField] = useState(""); 
   const [fieldValue, setFieldValue] = useState("");
@@ -16,24 +16,36 @@ function Account() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // --- Charger les infos du user ---
+  // Debug
   useEffect(() => {
-    if (!authUser) {
+    console.log("authUser:", authUser);
+    console.log("authUser._id:", authUser?._id);
+    console.log("authUser.id:", authUser?.id);
+    console.log("Object keys:", authUser ? Object.keys(authUser) : "null");
+  }, [authUser]);
+
+  // --- Charger les infos du user une seule fois ---
+  useEffect(() => {
+    // Vérifier si authUser est chargé
+    if (authUser === null) {
       navigate("/login");
+      return;
+    }
+
+    const userId = authUser?._id || authUser?.id;
+    if (!authUser || !userId) {
+      setLoading(false);
       return;
     }
 
     const fetchUser = async () => {
       setLoading(true);
-      const result = await getUserById(authUser._id); // update usersStore.user
-      if (!result) {
-        setError("Impossible de charger le profil utilisateur");
-      }
+      await getUserById(userId);
       setLoading(false);
     };
 
     fetchUser();
-  }, [authUser && authUser._id]); // Dépendance seulement sur authUser._id pour éviter les boucles infinies
+  }, [authUser?._id, authUser?.id]);
 
   // Afficher l'erreur du store s'il y en a une
   useEffect(() => {
@@ -42,8 +54,11 @@ function Account() {
     }
   }, [storeError]);
 
-  if (!authUser) return null; // sécurité
-  if (loading) return <p>Récupération des données du compte…</p>;
+  const userId = authUser?._id || authUser?.id;
+  
+  if (authUser === undefined || authUser === null) return <div style={{ padding: 20 }}><p>Chargement…</p></div>;
+  if (!userId) return <div style={{ padding: 20 }}><p>Non connecté</p></div>;
+  if (loading) return <div style={{ padding: 20 }}><p>Récupération des données du compte…</p></div>;
 
   // --- Cliquer sur modifier un champ ---
   const handleEditClick = (fieldName, currentValue) => {
@@ -54,10 +69,10 @@ function Account() {
   };
 
   const handleSave = async (field) => {
-    if (!field || !user) return;
+    if (!field || !userId) return;
 
     const formData = { [field]: fieldValue };
-    const success = await updateUser(user._id, formData);
+    const success = await updateUser(userId, formData);
 
     if (success) {
       setMessage(`✅ ${field} mis à jour avec succès !`);
@@ -68,15 +83,18 @@ function Account() {
   };
 
   const handleDelete = async () => {
-    if (!user) return;
-    if (!window.confirm("⚠️ Êtes-vous sûr de vouloir supprimer votre compte ?")) return;
+    if (!userId) return;
+    if (!window.confirm("⚠️ Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) return;
 
-    const success = await deleteUser(user._id);
+    const success = await deleteUser(userId);
     if (success) {
-      logout();
-      navigate("/");
+      setMessage("✅ Compte supprimé avec succès. Redirection en cours...");
+      setTimeout(() => {
+        logout();
+        navigate("/");
+      }, 1500);
     } else {
-      setError("Impossible de supprimer le compte.");
+      setError("❌ Impossible de supprimer le compte.");
     }
   };
 
@@ -94,6 +112,7 @@ function Account() {
               <label>Nom d'utilisateur</label>
               <input
                 type="text"
+                disabled={editField !== "username"}
                 value={editField === "username" ? fieldValue : user?.username || authUser.username}
                 onChange={(e) => setFieldValue(e.target.value)}
               />
@@ -112,6 +131,7 @@ function Account() {
               <label>Email</label>
               <input
                 type="email"
+                disabled={editField !== "email"}
                 value={editField === "email" ? fieldValue : user?.email || authUser.email}
                 onChange={(e) => setFieldValue(e.target.value)}
               />
@@ -132,6 +152,7 @@ function Account() {
                 <>
                   <input
                     type="password"
+                    disabled={false}
                     value={fieldValue}
                     onChange={(e) => setFieldValue(e.target.value)}
                   />

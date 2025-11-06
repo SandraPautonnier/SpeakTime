@@ -12,8 +12,13 @@ export default function Meeting() {
   const members = (state && state.members) || [];
   const totalSeconds = (state && state.totalSeconds) || 0;
   const groupId = (state && state.groupId) || null;
+  const durationMode = (state && state.durationMode) || "total";
+  const endTime = (state && state.endTime) || null;
 
   const [timeLeft, setTimeLeft] = useState(totalSeconds);
+  const [displayEndTime, setDisplayEndTime] = useState(
+    durationMode === "until" ? endTime : null
+  );
   const intervalRef = useRef(null);
 
   const [speakers, setSpeakers] = useState(() =>
@@ -41,11 +46,20 @@ export default function Meeting() {
     return `${m}:${String(sec).padStart(2, "0")}`;
   };
 
-  // Gestion du timer global
+  // Calculer l'heure de fin de la réunion (se met à jour chaque seconde si mode "total")
   useEffect(() => {
-    const someoneSpeaking = speakers.some((s) => s.isSpeaking);
+    if (durationMode === "total") {
+      const now = new Date();
+      const endTimeObj = new Date(now.getTime() + timeLeft * 1000);
+      const hours = String(endTimeObj.getHours()).padStart(2, "0");
+      const minutes = String(endTimeObj.getMinutes()).padStart(2, "0");
+      setDisplayEndTime(`${hours}:${minutes}`);
+    }
+  }, [timeLeft, durationMode]);
 
-    if (someoneSpeaking && !intervalRef.current) {
+  // Gestion du timer global - démarre automatiquement
+  useEffect(() => {
+    if (!intervalRef.current) {
       intervalRef.current = setInterval(() => {
         setTimeLeft((t) => Math.max(0, t - 1));
 
@@ -62,18 +76,13 @@ export default function Meeting() {
       }, 1000);
     }
 
-    if (!someoneSpeaking && intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
     };
-  }, [speakers, initialPerMember]);
+  }, [initialPerMember]);
 
   // Fin de réunion
   useEffect(() => {
@@ -108,6 +117,19 @@ export default function Meeting() {
         isSpeaking: i === index ? !p.isSpeaking : false,
       }))
     );
+  };
+
+  // Réordonner les participants
+  const moveParticipant = (index, direction) => {
+    setSpeakers((prev) => {
+      const newSpeakers = [...prev];
+      if (direction === "up" && index > 0) {
+        [newSpeakers[index], newSpeakers[index - 1]] = [newSpeakers[index - 1], newSpeakers[index]];
+      } else if (direction === "down" && index < newSpeakers.length - 1) {
+        [newSpeakers[index], newSpeakers[index + 1]] = [newSpeakers[index + 1], newSpeakers[index]];
+      }
+      return newSpeakers;
+    });
   };
 
   // === CALCUL ALLOCATION DYNAMIQUE ===
@@ -145,28 +167,14 @@ export default function Meeting() {
             <div style={{ marginTop: 6 }}>
               Temps total restant : <strong>{formatTime(timeLeft)}</strong>
             </div>
+            <div style={{ marginTop: 6, fontSize: 14, color: "#666" }}>
+              Jusqu'à : <strong>{displayEndTime}</strong>
+            </div>
             {globalOvertime > 0 && (
               <div style={{ color: "red", marginTop: 6 }}>
                 ⚠️ Dépassement global : {formatTime(globalOvertime)}
               </div>
             )}
-          </div>
-
-          <div>
-            <button
-              onClick={() =>
-                setSpeakers((prev) =>
-                  prev.map((p) => ({ ...p, isSpeaking: false }))
-                )
-              }
-              style={{
-                padding: "8px 12px",
-                borderRadius: 6,
-                cursor: "pointer",
-              }}
-            >
-              ⏸ Pause
-            </button>
           </div>
         </div>
 
@@ -204,9 +212,44 @@ export default function Meeting() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    marginBottom: 8,
                   }}
                 >
-                  <strong>{s.name}</strong>
+                  <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                    <strong>{s.name}</strong>
+                    <div style={{ display: "flex", gap: "2px" }}>
+                      <button
+                        onClick={() => moveParticipant(i, "up")}
+                        disabled={i === 0}
+                        style={{
+                          padding: "4px 6px",
+                          borderRadius: 4,
+                          border: "1px solid #ccc",
+                          cursor: i === 0 ? "not-allowed" : "pointer",
+                          background: i === 0 ? "#f0f0f0" : "white",
+                          opacity: i === 0 ? 0.5 : 1,
+                          fontSize: 12,
+                        }}
+                      >
+                        ↑
+                      </button>
+                      <button
+                        onClick={() => moveParticipant(i, "down")}
+                        disabled={i === speakers.length - 1}
+                        style={{
+                          padding: "4px 6px",
+                          borderRadius: 4,
+                          border: "1px solid #ccc",
+                          cursor: i === speakers.length - 1 ? "not-allowed" : "pointer",
+                          background: i === speakers.length - 1 ? "#f0f0f0" : "white",
+                          opacity: i === speakers.length - 1 ? 0.5 : 1,
+                          fontSize: 12,
+                        }}
+                      >
+                        ↓
+                      </button>
+                    </div>
+                  </div>
                   <button
                     onClick={() => toggleSpeaking(i)}
                     style={{

@@ -135,11 +135,9 @@ function Dashboard() {
                       <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
                         👥 Participants: {formatParticipants(meeting.participants)}
                       </p>
-                      {meeting.groupId && (
-                        <p style={{ margin: '5px 0', color: '#999', fontSize: '13px' }}>
-                          Groupe: <strong>{meeting.groupId.name || 'Groupe supprimé'}</strong>
-                        </p>
-                      )}
+                      <p style={{ margin: '5px 0', color: '#999', fontSize: '13px' }}>
+                        📁 Groupe: <strong>{meeting.groupId ? meeting.groupId.name : 'Groupe non nommé'}</strong>
+                      </p>
                     </div>
                   </div>
                 </li>

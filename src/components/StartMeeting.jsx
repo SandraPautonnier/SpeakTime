@@ -69,7 +69,13 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
 
     if (totalSeconds > 0 && members.length > 0) {
       navigate("/meeting", {
-        state: { members, totalSeconds, groupId: selectedGroupId || null },
+        state: { 
+          members, 
+          totalSeconds, 
+          groupId: selectedGroupId || null,
+          durationMode,
+          endTime: durationMode === "until" ? untilTime : null
+        },
       });
     } else {
       alert("Ajoute au moins un membre et une durée de réunion !");
