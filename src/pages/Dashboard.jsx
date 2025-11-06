@@ -6,6 +6,7 @@ import useGroupsStore from "../store/useGroupsStore";
 import useMeetingsStore from "../store/useMeetingsStore";
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore.jsx';
+import { formatDuration, formatParticipants, formatDate } from '../utils/formatMeeting.js';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -102,8 +103,26 @@ function Dashboard() {
           ) : (
             <ul style={{ listStyle: 'none', padding: 0 }}>
               {meetings.map((meeting) => (
-                <li key={meeting._id} style={{ marginBottom: '10px', padding: '12px', backgroundColor: '#f9f9f9', borderRadius: '4px', borderLeft: '4px solid #007bff' }}>
-                  <strong>{meeting.title}</strong> - {new Date(meeting.date).toLocaleString()}
+                <li key={meeting._id} style={{ marginBottom: '15px', padding: '15px', backgroundColor: '#f9f9f9', borderRadius: '4px', borderLeft: '4px solid #007bff' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                    <div style={{ flex: 1 }}>
+                      <h4 style={{ margin: '0 0 8px 0', color: '#007bff' }}>{meeting.title}</h4>
+                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
+                        📅 {formatDate(meeting.date)}
+                      </p>
+                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
+                        ⏱️ Durée: <strong>{formatDuration(meeting.duration)}</strong>
+                      </p>
+                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
+                        👥 Participants: {formatParticipants(meeting.participants)}
+                      </p>
+                      {meeting.groupId && (
+                        <p style={{ margin: '5px 0', color: '#999', fontSize: '13px' }}>
+                          Groupe: <strong>{meeting.groupId.name || 'Groupe supprimé'}</strong>
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
