@@ -42,13 +42,9 @@ const useUsersStore = create((set) => ({
       return false;
     }
 
-    const url = `${API_USERS}/${id}`;
-    console.log("Appel updateUser à:", url);
-    console.log("Données:", formData);
-
     set({ loading: true, error: null });
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${API_USERS}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -57,16 +53,13 @@ const useUsersStore = create((set) => ({
         body: JSON.stringify(formData),
       });
       
-      console.log("Status:", res.status);
       const text = await res.text();
-      console.log("Réponse brute:", text);
       
       let data;
       try {
         data = JSON.parse(text);
       } catch (e) {
-        console.error("Erreur parsing JSON:", e);
-        throw new Error(`Réponse invalide du serveur: ${text.substring(0, 100)}`);
+        throw new Error(`Réponse invalide du serveur`);
       }
       
       // Transformer id en _id pour la cohérence
@@ -74,17 +67,14 @@ const useUsersStore = create((set) => ({
         data._id = data.id;
       }
       
-      console.log("Réponse updateUser du backend:", data);
       if (!res.ok) {
         const errorMsg = data.message || "Erreur lors de la mise à jour";
-        console.error("Erreur:", errorMsg);
         throw new Error(errorMsg);
       }
 
       set({ user: data, loading: false });
       return true;
     } catch (err) {
-      console.error("Erreur dans updateUser:", err);
       set({ error: err.message, loading: false });
       return false;
     }

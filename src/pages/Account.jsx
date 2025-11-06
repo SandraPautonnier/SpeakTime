@@ -17,12 +17,7 @@ function Account() {
   const [loading, setLoading] = useState(true);
 
   // Debug
-  useEffect(() => {
-    console.log("authUser:", authUser);
-    console.log("authUser._id:", authUser?._id);
-    console.log("authUser.id:", authUser?.id);
-    console.log("Object keys:", authUser ? Object.keys(authUser) : "null");
-  }, [authUser]);
+  useEffect(() => {}, [authUser]);
 
   // --- Charger les infos du user une seule fois ---
   useEffect(() => {
