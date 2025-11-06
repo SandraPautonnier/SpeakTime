@@ -97,12 +97,31 @@ function Dashboard() {
         </section>
 
         <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
-          <h3 style={{ marginBottom: '20px' }}>Historique des réunions</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3>Réunions récentes</h3>
+            {meetings.length > 3 && (
+              <button
+                onClick={() => navigate('/history')}
+                style={{
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  padding: '8px 16px',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600'
+                }}
+              >
+                Voir plus →
+              </button>
+            )}
+          </div>
           {meetings.length === 0 ? (
             <p style={{ color: '#666', fontSize: '16px' }}>Aucune réunion passée</p>
           ) : (
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              {meetings.map((meeting) => (
+              {meetings.slice(0, 3).map((meeting) => (
                 <li key={meeting._id} style={{ marginBottom: '15px', padding: '15px', backgroundColor: '#f9f9f9', borderRadius: '4px', borderLeft: '4px solid #007bff' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                     <div style={{ flex: 1 }}>
