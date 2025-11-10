@@ -7,6 +7,8 @@ import useMeetingsStore from "../store/useMeetingsStore";
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore.jsx';
 import { formatDuration, formatParticipants, formatDate } from '../utils/formatMeeting.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -32,62 +34,57 @@ function Dashboard() {
     }
   }, [user, fetchGroups, fetchMeetings]);
 
+  // Générer le titre automatique de la réunion avec le nom du groupe
+  const generateMeetingTitleWithGroup = (meeting) => {
+    const groupName = meeting.groupId?.name;
+    const date = new Date(meeting.date);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('fr-FR', options);
+    
+    if (groupName) {
+      return `Réunion ${groupName} du ${formattedDate}`;
+    } else {
+      return `Réunion du ${formattedDate}`;
+    }
+  };
+
   if (!user) return <p>Vous n'êtes pas connecté.</p>;
 
   return (
     <div>
       <Navbar />
       <main>
-        <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+        <section>
+          <div>
             <h2>Bienvenue {user.username}!</h2>
           </div>
 
-          {loading && <p style={{ color: '#0066cc', padding: '10px', backgroundColor: '#e6f2ff', borderRadius: '4px', marginBottom: '20px' }}>Chargement des données...</p>}
-          {error && <p style={{ color: 'red', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '4px', marginBottom: '20px' }}>❌ {error}</p>}
+          {loading && <p>Chargement des données...</p>}
+          {error && <p>❌ {error}</p>}
         </section>
 
         <StartMeeting isConnected={true} groups={groups} />
 
-        <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
-          <h3 style={{ marginBottom: '20px' }}>Mes groupes</h3>
-            <button
-              onClick={() => navigate('/create-group')}
-              style={{ backgroundColor: '#007bff', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px', fontWeight: '600' }}
-            >
-              + Créer un groupe
-            </button>
+        <section className="groups-section">
+          <h2>Mes groupes</h2>
+          <button
+            onClick={() => navigate('/create-group')}
+            className='btn-secondary'>
+            <FontAwesomeIcon icon={faPlus} /> Créer un groupe
+          </button>
           {groups.length === 0 ? (
-            <p style={{ color: '#666', fontSize: '16px' }}>Aucun groupe pour le moment. Créez votre premier groupe !</p>
+            <p className="empty-group-message">Aucun groupe pour le moment. Créez votre premier groupe !</p>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+            <div className="groups-grid">
               {groups.map((group) => (
                 <div
                   key={group._id}
+                  className="group-card"
                   onClick={() => navigate(`/group/${group._id}`)}
-                  style={{
-                    backgroundColor: 'white',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    padding: '20px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
                 >
-                  <h4 style={{ marginTop: 0, marginBottom: '10px', color: '#007bff' }}>{group.name}</h4>
-                  <p style={{ color: '#666', marginBottom: '12px', lineHeight: '1.5' }}>
-                    {group.description || 'Pas de description'}
-                  </p>
-                  <p style={{ color: '#999', fontSize: '14px' }}>
+                  <h4>{group.name}</h4>
+                  <p>{group.description || 'Pas de description'}</p>
+                  <p>
                     <strong>{group.members?.length || 0}</strong> participant{group.members?.length > 1 ? 's' : ''}
                   </p>
                 </div>
@@ -96,53 +93,45 @@ function Dashboard() {
           )}
         </section>
 
-        <section style={{ maxWidth: '1000px', margin: '40px auto', padding: '0 20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <section className="meetings-section">
+          <div className="section-header">
             <h3>Réunions récentes</h3>
-            {meetings.length > 3 && (
-              <button
-                onClick={() => navigate('/history')}
-                style={{
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  padding: '8px 16px',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: '600'
-                }}
-              >
-                Voir plus →
-              </button>
-            )}
           </div>
           {meetings.length === 0 ? (
-            <p style={{ color: '#666', fontSize: '16px' }}>Aucune réunion passée</p>
+            <p className="empty-meetings-message">Aucune réunion passée</p>
           ) : (
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {meetings.slice(0, 3).map((meeting) => (
-                <li key={meeting._id} style={{ marginBottom: '15px', padding: '15px', backgroundColor: '#f9f9f9', borderRadius: '4px', borderLeft: '4px solid #007bff' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                    <div style={{ flex: 1 }}>
-                      <h4 style={{ margin: '0 0 8px 0', color: '#007bff' }}>{meeting.title}</h4>
-                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
-                        📅 {formatDate(meeting.date)}
-                      </p>
-                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
-                        ⏱️ Durée: <strong>{formatDuration(meeting.duration)}</strong>
-                      </p>
-                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>
-                        👥 Participants: {formatParticipants(meeting.participants)}
-                      </p>
-                      <p style={{ margin: '5px 0', color: '#999', fontSize: '13px' }}>
-                        📁 Groupe: <strong>{meeting.groupId ? meeting.groupId.name : 'Groupe non nommé'}</strong>
-                      </p>
+            <>
+              <ul>
+                {meetings.slice(0, 3).map((meeting) => (
+                  <li key={meeting._id}>
+                    <div className="meeting-container">
+                      <div className="meeting-info">
+                        <h4>{generateMeetingTitleWithGroup(meeting)}</h4>
+                        <p>
+                          📅 {formatDate(meeting.date)}
+                        </p>
+                        <p>
+                          ⏱️ Durée: <strong>{formatDuration(meeting.duration)}</strong>
+                        </p>
+                        <p>
+                          👥 Participants: {formatParticipants(meeting.participants)}
+                        </p>
+                        <p>
+                          📁 Groupe: <strong>{meeting.groupId ? meeting.groupId.name : 'Groupe non nommé'}</strong>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+              {meetings.length > 3 && (
+                <button 
+                  onClick={() => navigate('/history')}
+                  className='btn-secondary'>
+                  Voir plus <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              )}
+            </>
           )}
         </section>
       </main>

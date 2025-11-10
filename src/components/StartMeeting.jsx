@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash, faClock, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Dropdown from './Dropdown';
 
 export default function StartMeeting({ groups = [], isConnected = false }) {
   const [members, setMembers] = useState([]);
@@ -9,9 +10,19 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
   const [duration, setDuration] = useState("00:00");
   const [selectedGroupId, setSelectedGroupId] = useState("");
   const [durationMode, setDurationMode] = useState("total"); // "total" ou "until"
-  const [untilTime, setUntilTime] = useState("12:00");
+  const [untilTime, setUntilTime] = useState("");
   const [calculatedTotal, setCalculatedTotal] = useState(0);
   const navigate = useNavigate();
+
+  // Initialiser l'heure actuelle une seule fois quand on change de mode
+  useEffect(() => {
+    if (durationMode === "until" && isConnected && !untilTime) {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      setUntilTime(`${hours}:${minutes}`);
+    }
+  }, [durationMode, isConnected, untilTime]);
 
   // Calculer le temps total à partir de "jusqu'à heure"
   useEffect(() => {
@@ -103,11 +114,12 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
                 style={{
                   padding: "8px 16px",
                   borderRadius: "4px",
-                  border: durationMode === "total" ? "2px solid #007bff" : "1px solid #ccc",
-                  backgroundColor: durationMode === "total" ? "#e6f2ff" : "white",
+                  border: durationMode === "total" ? "2px solid #5664E3" : "1px solid #ccc",
+                  backgroundColor: durationMode === "total" ? "#EEF1FF" : "white",
                   cursor: "pointer",
                   fontWeight: durationMode === "total" ? "600" : "400",
-                  fontSize: "14px"
+                  fontSize: "14px",
+                  color: durationMode === "total" ? "#5664E3" : "#333"
                 }}
               >
                 ⏱️ Durée totale
@@ -117,11 +129,12 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
                 style={{
                   padding: "8px 16px",
                   borderRadius: "4px",
-                  border: durationMode === "until" ? "2px solid #007bff" : "1px solid #ccc",
-                  backgroundColor: durationMode === "until" ? "#e6f2ff" : "white",
+                  border: durationMode === "until" ? "2px solid #5664E3" : "1px solid #ccc",
+                  backgroundColor: durationMode === "until" ? "#EEF1FF" : "white",
                   cursor: "pointer",
                   fontWeight: durationMode === "until" ? "600" : "400",
-                  fontSize: "14px"
+                  fontSize: "14px",
+                  color: durationMode === "until" ? "#5664E3" : "#333"
                 }}
               >
                 🕐 Jusqu'à heure
@@ -154,11 +167,16 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
                 type="time"
                 value={untilTime}
                 onChange={e => setUntilTime(e.target.value)}
+                placeholder={untilTime}
                 required
                 style={{ flex: 1 }}
               />
-              <div style={{ padding: "10px 15px", backgroundColor: "#f0f0f0", borderRadius: "4px", whiteSpace: "nowrap", fontSize: "14px", fontWeight: "600" }}>
-                = {formatSeconds(calculatedTotal)}
+              <FontAwesomeIcon 
+                icon={faArrowRight} 
+                style={{ color: "#5664E3", fontSize: "18px" }}
+              />
+              <div style={{ padding: "10px 15px", backgroundColor: "#EEF1FF", borderRadius: "4px", whiteSpace: "nowrap", fontSize: "14px", fontWeight: "600", fontFamily: "Montserrat, sans-serif", color: "#5664E3" }}>
+                {formatSeconds(calculatedTotal)}
               </div>
             </div>
           </div>
@@ -167,27 +185,18 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
         {isConnected && groups.length > 0 && (
           <div className="form-group">
             <label>Ajouter un groupe :</label>
-            <select
-              value={selectedGroupId}
-              onChange={(e) => handleSelectGroup(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                fontSize: "16px",
-                backgroundColor: "white",
-                cursor: "pointer",
-                fontFamily: "Inter, sans-serif"
-              }}
-            >
-              <option value="">-- Sélectionner un groupe --</option>
-              {groups.map((group) => (
-                <option key={group._id} value={group._id}>
-                  {group.name} ({group.members?.length || 0} participant{group.members?.length > 1 ? 's' : ''})
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              title="-- Sélectionner un groupe --"
+              options={[
+                { value: '', label: '-- Sélectionner un groupe --' },
+                ...groups.map((group) => ({
+                  value: group._id,
+                  label: `${group.name} (${group.members?.length || 0} participant${group.members?.length > 1 ? 's' : ''})`
+                }))
+              ]}
+              selectedValue={selectedGroupId}
+              onSelect={(value) => handleSelectGroup(value)}
+            />
           </div>
         )}
 

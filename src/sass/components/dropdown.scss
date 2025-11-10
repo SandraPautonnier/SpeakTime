@@ -1,0 +1,103 @@
+@import '../utils/variables.scss';
+@import '../utils/mixins.scss';
+
+.container-dropdown {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+
+    .click-toggle {
+        padding: 0;
+        margin: 0;
+        height: 45px;
+        position: relative;
+    }
+
+    h3 {
+        position: absolute;
+        color: white;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    button {
+        width: 100%;
+        height: 45px;
+        background-color: $primary-color;
+        border: none;
+        border-radius: 8px;
+        padding: 0;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            box-shadow: 0px 2px 10px 1px rgba(105, 105, 105, 0.4);
+        }
+
+        svg {
+            width: 20px;
+            font-size: 16px;
+            position: absolute;
+            top: 14px;
+            right: 12px;
+            color: white;
+        }
+    }
+
+    .content-dropdown {
+        background-color: #f9f9f9;
+        margin-top: 5px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        &.open {
+            height: auto;
+        }
+
+        &.closed {
+            height: 0;
+        }
+
+        .content-drop {
+            margin: 0;
+            padding: 10px 0;
+            font-weight: 500;
+            list-style: none;
+
+            li {
+                padding: 12px 15px;
+                font-size: 14px;
+                color: #333;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: #f0f5ff;
+                    color: $primary-color;
+                    padding-left: 20px;
+                }
+
+                &.selected {
+                    background-color: #EEF1FF;
+                    color: $primary-color;
+                    font-weight: 600;
+                }
+
+                &:first-child {
+                    border-radius: 8px 8px 0 0;
+                }
+
+                &:last-child {
+                    border-radius: 0 0 8px 8px;
+                }
+            }
+        }
+    }
+}

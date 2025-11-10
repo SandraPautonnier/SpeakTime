@@ -271,6 +271,292 @@ footer p {
   margin-bottom: 20px;
 }
 
+.btn-remove {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: #5664E3;
+}
+
+main section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+main section h2 {
+  margin-bottom: 20px;
+}
+main section h3 {
+  margin-bottom: 20px;
+}
+main section:first-of-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+main section > p {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+main section > p:nth-of-type(1) {
+  color: #0066cc;
+  background-color: #e6f2ff;
+}
+main section > p:nth-of-type(2) {
+  color: red;
+  background-color: #ffe0e0;
+}
+
+button.btn-secondary {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: #F7F9FF;
+  color: #5664E3;
+  border: 2px solid #5664E3;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+button.btn-secondary:hover {
+  background-color: #5664E3;
+  color: white;
+}
+button.btn-secondary:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border-color: darkgrey;
+  cursor: not-allowed;
+}
+
+.groups-section {
+  display: flex;
+  flex-direction: column;
+}
+.groups-section button.btn-secondary {
+  align-self: center;
+  margin-bottom: 20px;
+}
+.groups-section .empty-group-message {
+  color: #666;
+  font-size: 16px;
+}
+.groups-section .groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.groups-section .groups-grid .group-card {
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.groups-section .groups-grid .group-card:hover {
+  background-color: #EEF1FF;
+  border: 2px solid #5664E3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.groups-section .groups-grid .group-card h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #5664E3;
+}
+.groups-section .groups-grid .group-card p {
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.groups-section .groups-grid .group-card p:last-child {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.groups-section .groups-grid .group-card strong {
+  font-weight: 600;
+}
+
+.meetings-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.meetings-section .empty-meetings-message {
+  color: #666;
+  font-size: 16px;
+}
+.meetings-section button.btn-secondary {
+  display: block;
+  margin: 20px auto 0;
+}
+.meetings-section ul {
+  list-style: none;
+  padding: 0;
+}
+.meetings-section ul li {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 4px;
+  border-left: 4px solid #5664E3;
+  transition: all 0.3s ease;
+}
+.meetings-section ul li:hover {
+  background-color: #EEF1FF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.meetings-section ul li .meeting-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.meetings-section ul li .meeting-info {
+  flex: 1;
+}
+.meetings-section ul li .meeting-info h4 {
+  margin: 0 0 8px 0;
+  color: #5664E3;
+  font-size: 16px;
+  font-weight: 600;
+}
+.meetings-section ul li .meeting-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+.meetings-section ul li .meeting-info p strong {
+  font-weight: 600;
+}
+.meetings-section ul li .meeting-info p:last-child {
+  color: #999;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  main section {
+    max-width: 100%;
+    margin: 30px auto;
+    padding: 0 15px;
+  }
+  .groups-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .meetings-section .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .meetings-section .section-header button {
+    width: 100%;
+  }
+}
+.btn-remove {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: #5664E3;
+}
+
+main {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+main h2 {
+  margin-bottom: 30px;
+}
+
+.error-message {
+  color: red;
+  padding: 10px;
+  background-color: #ffe0e0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: green;
+  padding: 10px;
+  background-color: #e0ffe0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.container form .form-group {
+  margin-bottom: 20px;
+}
+.container form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.container form .form-group input,
+.container form .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+.container form .form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.container form .char-count {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 5px;
+}
+.container form .button-group {
+  display: flex;
+  gap: 10px;
+}
+.container form .button-group button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.container form .button-group button.btn-primary {
+  background-color: #5664E3;
+  color: white;
+}
+.container form .button-group button.btn-primary:hover:not(:disabled) {
+  background-color: rgb(42.2487309645, 59.8730964467, 219.7512690355);
+}
+.container form .button-group button.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.container form .button-group button.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.container form .button-group button.btn-secondary:hover {
+  background-color: rgb(84.3605150215, 91.3905579399, 97.6394849785);
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Montserrat", sans-serif;
   font-weight: bold;

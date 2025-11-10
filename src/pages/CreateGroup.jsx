@@ -24,56 +24,56 @@ function CreateGroup() {
   return (
     <div>
       <Navbar />
-      <main style={{ maxWidth: '600px', margin: '40px auto', padding: '0 20px' }}>
+      <main>
         <h2>Créer un nouveau groupe</h2>
 
-        {error && <p style={{ color: 'red', padding: '10px', backgroundColor: '#ffe0e0', borderRadius: '4px' }}>{error}</p>}
-        {success && <p style={{ color: 'green', padding: '10px', backgroundColor: '#e0ffe0', borderRadius: '4px' }}>{success}</p>}
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
 
-        <form onSubmit={handleSubmit} style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>Nom du groupe *</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required
-              placeholder="Ex: Réunion Marketing"
-              style={{ width: '100%', padding: '10px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }}
-            />
-          </div>
+        <div className="container">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Nom du groupe *</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+                placeholder="Ex: Réunion Marketing"
+              />
+            </div>
 
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>Description</label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value.slice(0, 250) })}
-              maxLength="250"
-              placeholder="Décrivez le groupe et son objectif"
-              style={{ width: '100%', padding: '10px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box', minHeight: '100px', resize: 'vertical' }}
-            />
-            <p style={{ fontSize: '0.85em', color: '#666' }}>
-              {formData.description.length}/250 caractères
-            </p>
-          </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value.slice(0, 250) })}
+                maxLength="250"
+                placeholder="Décrivez le groupe et son objectif"
+              />
+              <p className="char-count">
+                {formData.description.length}/250 caractères
+              </p>
+            </div>
 
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button
-              type="submit"
-              disabled={loading || !formData.name.trim()}
-              style={{ flex: 1, backgroundColor: '#007bff', color: 'white', padding: '12px', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '600' }}
-            >
-              {loading ? 'Création...' : 'Créer le groupe'}
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/dashboard')}
-              style={{ flex: 1, backgroundColor: '#6c757d', color: 'white', padding: '12px', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: '600' }}
-            >
-              Annuler
-            </button>
-          </div>
-        </form>
+            <div className="button-group">
+              <button
+                type="submit"
+                disabled={loading || !formData.name.trim()}
+                className="btn-primary"
+              >
+                {loading ? 'Création...' : 'Créer le groupe'}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/dashboard')}
+                className="btn-secondary"
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
       </main>
       <Footer />
     </div>
