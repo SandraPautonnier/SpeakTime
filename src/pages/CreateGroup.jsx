@@ -25,56 +25,58 @@ function CreateGroup() {
     <div>
       <Navbar />
       <main>
-        <h2>Créer un nouveau groupe</h2>
+        <section>
+          <h2>Créer un nouveau groupe</h2>
 
-        {error && <p className="error-message">{error}</p>}
-        {success && <p className="success-message">{success}</p>}
+          {error && <p className="error-message">{error}</p>}
+          {success && <p className="success-message">{success}</p>}
 
-        <div className="container">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Nom du groupe *</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                placeholder="Ex: Réunion Marketing"
-              />
-            </div>
+          <div className="container">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Nom du groupe *</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  placeholder="Ex: Réunion Marketing"
+                />
+              </div>
 
-            <div className="form-group">
-              <label>Description du groupe</label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value.slice(0, 250) })}
-                maxLength="250"
-                placeholder="Décrivez le groupe et son objectif"
-              />
-              <p className="char-count">
-                {formData.description.length}/250 caractères <br />
-                *Champ obligatoire
-              </p>
-            </div>
+              <div className="form-group">
+                <label>Description du groupe</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value.slice(0, 250) })}
+                  maxLength="250"
+                  placeholder="Décrivez le groupe et son objectif"
+                />
+                <p className="char-count">
+                  {formData.description.length}/250 caractères <br />
+                  *Champ obligatoire
+                </p>
+              </div>
 
-            <div className="button-group">
-              <button
-                type="submit"
-                disabled={loading || !formData.name.trim()}
-                className="btn-primary"
-              >
-                {loading ? 'Création...' : 'Créer le groupe'}
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/dashboard')}
-                className="btn-secondary"
-              >
-                Annuler
-              </button>
-            </div>
-          </form>
-        </div>
+              <div className="button-group">
+                <button
+                  type="submit"
+                  disabled={loading || !formData.name.trim()}
+                  className="btn-primary"
+                >
+                  {loading ? 'Création...' : 'Créer le groupe'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate('/dashboard')}
+                  className="btn-secondary"
+                >
+                  Annuler
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

@@ -146,3 +146,21 @@ form {
     border-radius: 5px;
     }
 }
+
+.error-message {
+  color: red;
+  padding: 10px;
+  background-color: #ffe0e0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.success-message {
+  color: green;
+  padding: 10px;
+  background-color: #e0ffe0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
