@@ -9,7 +9,7 @@
 }
 .btn-remove:hover {
   transform: scale(1.2);
-  color: #5664E3;
+  color: rgb(184, 19, 19);
 }
 
 .btn-remove {
@@ -21,7 +21,7 @@
 }
 .btn-remove:hover {
   transform: scale(1.2);
-  color: #5664E3;
+  color: rgb(184, 19, 19);
 }
 
 header {
@@ -220,7 +220,7 @@ footer p {
 }
 .btn-remove:hover {
   transform: scale(1.2);
-  color: #5664E3;
+  color: rgb(184, 19, 19);
 }
 
 .home {
@@ -280,7 +280,7 @@ footer p {
 }
 .btn-remove:hover {
   transform: scale(1.2);
-  color: #5664E3;
+  color: rgb(184, 19, 19);
 }
 
 main section {
@@ -471,7 +471,7 @@ button.btn-secondary:disabled {
 }
 .btn-remove:hover {
   transform: scale(1.2);
-  color: #5664E3;
+  color: rgb(184, 19, 19);
 }
 
 main {
@@ -555,6 +555,114 @@ main h2 {
 }
 .container form .button-group button.btn-secondary:hover {
   background-color: rgb(84.3605150215, 91.3905579399, 97.6394849785);
+}
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+.btn-remove:hover {
+  transform: scale(1.2);
+  color: rgb(184, 19, 19);
+}
+
+.duration-mode-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.duration-mode-buttons button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+}
+.duration-mode-buttons button:hover {
+  border-color: #5664E3;
+}
+.duration-mode-buttons button.active {
+  border: 2px solid #5664E3;
+  background-color: #EEF1FF;
+  color: #5664E3;
+  font-weight: 600;
+}
+
+.until-time-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.until-time-container input[type=time] {
+  flex: 1;
+}
+.until-time-container .arrow-icon {
+  color: #5664E3;
+  font-size: 18px;
+}
+.until-time-container .duration-display {
+  padding: 10px 15px;
+  background-color: #EEF1FF;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  color: #5664E3;
+}
+
+.container-add .btn-add {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: transparent;
+  color: #5664E3;
+  font-size: 17px;
+  border-radius: 5px;
+  margin: 0px 5px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease-in-out;
+}
+.container-add .btn-add:hover {
+  transform: scale(1.2);
+}
+.container-add .btn-add:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border-color: darkgrey;
+  cursor: not-allowed;
+}
+
+.member-container .btn-add {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: transparent;
+  color: #5664E3;
+  font-size: 17px;
+  border-radius: 5px;
+  margin: 0px 5px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease-in-out;
+}
+.member-container .btn-add:hover {
+  transform: scale(1.2);
+}
+.member-container .btn-add:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border-color: darkgrey;
+  cursor: not-allowed;
+}
+.member-container .btn-add {
+  color: rgb(184, 19, 19);
 }
 
 h1, h2, h3, h4, h5, h6 {

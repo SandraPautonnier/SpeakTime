@@ -1,0 +1,70 @@
+@import '../utils/variables.scss';
+@import '../utils/mixins.scss';
+
+// Boutons de mode de durée
+.duration-mode-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 2px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &.active {
+      border: 2px solid $primary-color;
+      background-color: #EEF1FF;
+      color: $primary-color;
+      font-weight: 600;
+    }
+  }
+}
+
+// Conteneur pour "jusqu'à heure"
+.until-time-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  input[type="time"] {
+    flex: 1;
+  }
+
+  .arrow-icon {
+    color: $primary-color;
+    font-size: 18px;
+  }
+
+  .duration-display {
+    padding: 10px 15px;
+    background-color: #EEF1FF;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    color: $primary-color;
+  }
+}
+
+// Bouton d'ajout de participant (bleu)
+.container-add .btn-add {
+  @include button-add();
+}
+
+// Bouton de suppression de participant (rouge)
+.member-container .btn-add {
+  @include button-add();
+  color: $alert-delete-color;
+}

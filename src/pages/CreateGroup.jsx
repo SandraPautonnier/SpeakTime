@@ -44,7 +44,7 @@ function CreateGroup() {
             </div>
 
             <div className="form-group">
-              <label>Description</label>
+              <label>Description du groupe</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value.slice(0, 250) })}
@@ -52,7 +52,8 @@ function CreateGroup() {
                 placeholder="Décrivez le groupe et son objectif"
               />
               <p className="char-count">
-                {formData.description.length}/250 caractères
+                {formData.description.length}/250 caractères <br />
+                *Champ obligatoire
               </p>
             </div>
 

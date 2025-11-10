@@ -108,34 +108,16 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
         {isConnected && (
           <div className="form-group">
             <label>Mode de durée :</label>
-            <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+            <div className="duration-mode-buttons">
               <button
                 onClick={() => setDurationMode("total")}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  border: durationMode === "total" ? "2px solid #5664E3" : "1px solid #ccc",
-                  backgroundColor: durationMode === "total" ? "#EEF1FF" : "white",
-                  cursor: "pointer",
-                  fontWeight: durationMode === "total" ? "600" : "400",
-                  fontSize: "14px",
-                  color: durationMode === "total" ? "#5664E3" : "#333"
-                }}
+                className={durationMode === "total" ? "active" : ""}
               >
                 ⏱️ Durée totale
               </button>
               <button
                 onClick={() => setDurationMode("until")}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  border: durationMode === "until" ? "2px solid #5664E3" : "1px solid #ccc",
-                  backgroundColor: durationMode === "until" ? "#EEF1FF" : "white",
-                  cursor: "pointer",
-                  fontWeight: durationMode === "until" ? "600" : "400",
-                  fontSize: "14px",
-                  color: durationMode === "until" ? "#5664E3" : "#333"
-                }}
+                className={durationMode === "until" ? "active" : ""}
               >
                 🕐 Jusqu'à heure
               </button>
@@ -162,20 +144,19 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
         {durationMode === "until" && isConnected && (
           <div className="form-group">
             <label>La réunion dure jusqu'à :</label>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <div className="until-time-container">
               <input
                 type="time"
                 value={untilTime}
                 onChange={e => setUntilTime(e.target.value)}
                 placeholder={untilTime}
                 required
-                style={{ flex: 1 }}
               />
               <FontAwesomeIcon 
                 icon={faArrowRight} 
-                style={{ color: "#5664E3", fontSize: "18px" }}
+                className="arrow-icon"
               />
-              <div style={{ padding: "10px 15px", backgroundColor: "#EEF1FF", borderRadius: "4px", whiteSpace: "nowrap", fontSize: "14px", fontWeight: "600", fontFamily: "Montserrat, sans-serif", color: "#5664E3" }}>
+              <div className="duration-display">
                 {formatSeconds(calculatedTotal)}
               </div>
             </div>
