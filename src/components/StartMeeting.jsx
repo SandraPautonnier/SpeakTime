@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faClock, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Dropdown from './Dropdown';
+import MembersList from './MembersList';
 
 export default function StartMeeting({ groups = [], isConnected = false }) {
   const [members, setMembers] = useState([]);
-  const [newMember, setNewMember] = useState("");
   const [duration, setDuration] = useState("00:00");
   const [selectedGroupId, setSelectedGroupId] = useState("");
   const [durationMode, setDurationMode] = useState("total"); // "total" ou "until"
@@ -58,10 +58,11 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
     }
   };
 
-  const handleAddMember = () => {
-    if (newMember.trim() !== "") {
-      setMembers([...members, newMember.trim()]);
-      setNewMember("");
+  // Ajouter un participant venant de MembersList
+  const handleAddMember = (value) => {
+    // Ajouter seulement les participants non-vides
+    if (typeof value === 'string' && value.trim() !== "") {
+      setMembers((prev) => [...prev, value.trim()]);
     }
   };
 
@@ -78,7 +79,8 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
         })()
       : calculatedTotal;
 
-    if (totalSeconds > 0 && members.length > 0) {
+    const hasNonEmptyMember = members.some(m => typeof m === 'string' && m.trim() !== '');
+    if (totalSeconds > 0 && hasNonEmptyMember) {
       navigate("/meeting", {
         state: { 
           members, 
@@ -181,31 +183,13 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
           </div>
         )}
 
-        <div className="form-group">
-          <label>Participants :</label>
-          <div>
-            {members.map((m, i) => (
-              <div key={i} className="member-container">
-                <span className="member-item">{m}</span>
-                <button className="btn-add" onClick={() => handleRemoveMember(i)}>
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </div>
-            ))}
-            <div className="container-add">
-              <input
-                type="text"
-                value={newMember}
-                onChange={(e) => setNewMember(e.target.value)}
-                placeholder="Nom/Prénom/Pseudo"
-                onKeyDown={e => { if (e.key === "Enter") handleAddMember(); }}
-              />
-              <button className="btn-add" onClick={handleAddMember}>
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
-            </div>
-          </div>
-        </div>
+        <MembersList 
+          members={members}
+          onAddMember={handleAddMember}
+          onRemoveMember={handleRemoveMember}
+          isConnected={isConnected}
+          maxMembers={isConnected ? Infinity : 10} // Quand on n'est pas connecté, limiter à 10 participants
+        />
       </div>
       <button className="btn-main" onClick={handleStart}>
         C'est parti !

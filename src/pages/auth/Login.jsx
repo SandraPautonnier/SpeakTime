@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
-import useAuthStore from "../store/useAuthStore.jsx";
+import Navbar from '../../components/Navbar.jsx';
+import Footer from '../../components/Footer.jsx';
+import useAuthStore from "../../store/useAuthStore.jsx";
 import { useNavigate } from 'react-router-dom';
 
 function Login() {

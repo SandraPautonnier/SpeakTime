@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import '../sass/components/dropdown.scss';
 
 const Dropdown = ({ title, options, onSelect, selectedValue }) => {
   const [isOpen, setIsOpen] = useState(false);

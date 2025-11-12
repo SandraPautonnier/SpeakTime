@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
-import useGroupsStore from '../store/useGroupsStore.jsx';
-import useAuthStore from '../store/useAuthStore.jsx';
+import Navbar from '../../components/Navbar.jsx';
+import Footer from '../../components/Footer.jsx';
+import useGroupsStore from '../../store/useGroupsStore.jsx';
+import useAuthStore from '../../store/useAuthStore.jsx';
 
 function CreateGroup() {
   const navigate = useNavigate();
@@ -52,17 +52,17 @@ function CreateGroup() {
                   maxLength="250"
                   placeholder="Décrivez le groupe et son objectif"
                 />
-                <p className="char-count">
+                <p className='info-description'>
                   {formData.description.length}/250 caractères <br />
                   *Champ obligatoire
                 </p>
               </div>
 
-              <div className="button-group">
+              <div className='group-between'>
                 <button
                   type="submit"
                   disabled={loading || !formData.name.trim()}
-                  className="btn-primary"
+                  className="btn-secondary"
                 >
                   {loading ? 'Création...' : 'Créer le groupe'}
                 </button>

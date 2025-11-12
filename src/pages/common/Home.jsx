@@ -2,9 +2,9 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faClock } from '@fortawesome/free-solid-svg-icons';
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import StartMeeting from "../components/StartMeeting";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import StartMeeting from "../../components/StartMeeting";
 
 export default function Home() {
   return (

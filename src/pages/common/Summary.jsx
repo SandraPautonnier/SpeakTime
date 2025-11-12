@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
+import Navbar from "../../components/Navbar.jsx";
+import Footer from "../../components/Footer.jsx";
 
 export default function Summary() {
   const location = useLocation();
@@ -25,6 +25,7 @@ export default function Summary() {
     <div className="summary">
       <Navbar />
       <main>
+        <section>
         <h2>📋 Résumé de la réunion</h2>
 
       <p>
@@ -93,6 +94,7 @@ export default function Summary() {
       >
         ← Retour au tableau de bord
       </button>
+        </section>
       </main>
       <Footer />
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import useAuthStore from "../store/useAuthStore.jsx";
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import useAuthStore from "../../store/useAuthStore.jsx";
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 function Register() {
 

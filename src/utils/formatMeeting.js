@@ -62,3 +62,21 @@ export const formatDate = (date) => {
   const minutes = String(d.getMinutes()).padStart(2, "0");
   return `${day}/${month}/${year} à ${hours}:${minutes}`;
 };
+
+/**
+ * Génère le titre d'une réunion avec le groupe et la date
+ * @param {object} meeting - Objet réunion avec { date, groupId: { name } }
+ * @returns {string} Format "Réunion [groupName] du [date]"
+ */
+export const generateMeetingTitleWithGroup = (meeting) => {
+  const groupName = meeting.groupId?.name;
+  const date = new Date(meeting.date);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const formattedDate = date.toLocaleDateString("fr-FR", options);
+
+  if (groupName) {
+    return `Réunion ${groupName} du ${formattedDate}`;
+  } else {
+    return `Réunion du ${formattedDate}`;
+  }
+};

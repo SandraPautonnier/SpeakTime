@@ -1,0 +1,57 @@
+@import '../../utils/variables';
+@import '../../utils/mixins';
+
+// Bouton principal avec gradient
+.btn-main {
+    @include button-main();
+}
+
+// Bouton secondaire
+.btn-secondary {
+    @include button-secondary();
+}
+
+// Bouton pour ajouter
+.btn-add {
+    @include button-add();
+}
+
+// Bouton de suppression
+.btn-remove {
+    background: transparent;
+    border: none;
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.2);
+        color: $alert-delete-color;
+    }
+}
+
+.btn-delete {
+    @include button-delete();
+
+}
+
+.btn-confirm {
+    @include button-confirm();
+}
+
+// Bouton retour
+button.back-button {
+  background-color: $primary-color;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}

@@ -38,10 +38,10 @@ const Navbar = () => {
   return (
     <header>
       <div className="header-nav">
-        <div className="header-logo">
+        <Link to="/" className="header-logo">
             <img className="logo" src={Logo} alt="Logo SpeakTime" />
             <h1>SpeakTime</h1>
-        </div>
+        </Link>
         <nav ref={navRef}>
           {/* Bouton hamburger */}
           <div className="hamburger" onClick={toggleMenu}>

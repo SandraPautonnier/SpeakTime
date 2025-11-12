@@ -2,10 +2,16 @@
 @import "./utils/mixins.scss";
 @import "./layout/navbar.scss";
 @import "./layout/footer.scss";
-@import "./pages/home.scss";
-@import "./pages/dashboard.scss";
-@import "./pages/creategroup.scss";
-@import "./components/startmeeting.scss";
+@import "./components/generic/buttons.scss";
+@import "./components/generic/cards.scss";
+@import "./components/generic/form.scss";
+@import "./pages/Home.scss";
+@import "./pages/Dashboard.scss";
+@import "./pages/History.scss";
+@import "./pages/Meeting.scss";
+@import "./pages/Summary.scss";
+@import "./components/specific/startmeeting.scss";
+@import "./components/specific/dropdown.scss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -44,11 +50,22 @@ main {
 section {
     max-width: 1024px;
     margin: 30px 0;
+    @include flex-column-center();
+    @media (max-width: 600px) {
+        width: 100%;
+    }
 }
 
-p, label, input, select, textarea, ul, li, span, button {
+p, label, input, select, textarea, ul, li, button {
     font-family: 'Inter', sans-serif;
     font-weight: normal;
+}
+
+span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
 }
 
 ul {
@@ -59,92 +76,22 @@ li {
     list-style-type: none;
 }
 
-span {
-    font-weight: bold
-}
-
 a {
     text-decoration: none;
+}
+
+a:-webkit-any-link {
+    color: none;
+    cursor: pointer;
+    
 }
 
 main {
     @include flex-column-center();
 }
 
-.btn-main {
-    @include button-main();
-}
-
-.btn-add {
-    @include button-add();
-}
-
-input {
-    height: 35px;
-    
-    margin: 5px 0px;
-    padding: 0px 7px;
-    border-radius: 5px;
-    border: 2px solid lightgrey;
-}
-
-
-
-input:focus {
-    outline: none;
-    border: 2px solid $primary-color;
-}
-
-section {
-    @include flex-column-center();
-    @media (max-width: 600px) {
-        width: 100%;
-    }
-}
-
-form {
-    @include flex-column-center();
-    
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-    
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-        min-width: 380px;
-        width: 100%;
-        @media (min-width: 600px) {
-            min-width: none;
-        }
-    }
-    .container-add {
-        display: flex;
-        justify-content: space-between;
-        input {
-            width: 100%;
-        }
-    }
-}
-
-
-.member-container {
-    display: flex;
-    align-items: center;
-    .member-item {
-    background-color: $primary-color;
-    color: white;
-    padding: 5px 7px;
-    margin: 5px 0;
-    display: flex;
-    width: 100%;
-    border-radius: 5px;
-    }
+.group-between {
+  @include flex-row-between();
 }
 
 .error-message {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
-import useAuthStore from "../store/useAuthStore.jsx";
-import useUsersStore from "../store/useUsersStore.jsx";
+import Navbar from "../../components/Navbar.jsx";
+import Footer from "../../components/Footer.jsx";
+import useAuthStore from "../../store/useAuthStore.jsx";
+import useUsersStore from "../../store/useUsersStore.jsx";
 import { useNavigate } from "react-router-dom";
 
 function Account() {
@@ -100,7 +100,7 @@ function Account() {
         <section>
           <div className="container">
             <h2>Mon compte</h2>
-            <p>Voici vos informations personnelles :</p>
+            <p>Voici vos informations personnelles, <br /> vous pouvez les modifier ou supprimer votre compte ici :</p>
 
             {/* Username */}
             <div className="form-group">
@@ -113,11 +113,13 @@ function Account() {
               />
               {editField === "username" ? (
                 <>
-                  <button onClick={() => handleSave("username")}>💾 Sauvegarder</button>
-                  <button onClick={() => setEditField("")}>❌ Annuler</button>
+                  <div className="group-between">
+                    <button className="btn-confirm" onClick={() => handleSave("username")}>💾 Sauvegarder</button>
+                    <button className="btn-delete" onClick={() => setEditField("")}>❌ Annuler</button>
+                  </div>
                 </>
               ) : (
-                <button onClick={() => handleEditClick("username", user?.username || authUser.username)}>✏️ Modifier</button>
+                <button className="btn-secondary" onClick={() => handleEditClick("username", user?.username || authUser.username)}>✏️ Modifier</button>
               )}
             </div>
 
@@ -132,11 +134,13 @@ function Account() {
               />
               {editField === "email" ? (
                 <>
-                  <button onClick={() => handleSave("email")}>💾 Sauvegarder</button>
-                  <button onClick={() => setEditField("")}>❌ Annuler</button>
+                  <div className="group-between">
+                    <button className="btn-confirm" onClick={() => handleSave("email")}>💾 Sauvegarder</button>
+                    <button className="btn-delete" onClick={() => setEditField("")}>❌ Annuler</button>
+                  </div>
                 </>
               ) : (
-                <button onClick={() => handleEditClick("email", user?.email || authUser.email)}>✏️ Modifier</button>
+                <button className="btn-secondary" onClick={() => handleEditClick("email", user?.email || authUser.email)}>✏️ Modifier</button>
               )}
             </div>
 
@@ -151,13 +155,15 @@ function Account() {
                     value={fieldValue}
                     onChange={(e) => setFieldValue(e.target.value)}
                   />
-                  <button onClick={() => handleSave("password")}>💾 Sauvegarder</button>
-                  <button onClick={() => setEditField("")}>❌ Annuler</button>
+                  <div className="group-between">
+                    <button className="btn-confirm" onClick={() => handleSave("password")}>💾 Sauvegarder</button>
+                    <button className="btn-delete" onClick={() => setEditField("")}>❌ Annuler</button>
+                  </div>
                 </>
               ) : (
                 <>
                   <span>********</span>
-                  <button onClick={() => handleEditClick("password", "")}>✏️ Modifier</button>
+                  <button className="btn-secondary" onClick={() => handleEditClick("password", "")}>✏️ Modifier</button>
                 </>
               )}
             </div>

@@ -1,8 +1,8 @@
 // src/pages/Meeting.jsx
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../components/Navbar";
-import useMeetingsStore from "../store/useMeetingsStore";
+import Header from "../../components/Navbar";
+import useMeetingsStore from "../../store/useMeetingsStore";
 
 export default function Meeting() {
   const { state } = useLocation();
@@ -154,6 +154,7 @@ export default function Meeting() {
     <div className="meeting" style={{ padding: 20 }}>
       <Header />
       <main>
+        <section>
         <div
           style={{
             display: "flex",
@@ -295,6 +296,7 @@ export default function Meeting() {
             );
           })}
         </div>
+        </section>
       </main>
     </div>
   );

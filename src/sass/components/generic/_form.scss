@@ -1,0 +1,74 @@
+@import '../../utils/variables';
+@import '../../utils/mixins';
+
+form {
+    @include flex-column-center();
+    
+}
+
+input {
+    height: 35px;
+    margin: 5px 0px;
+    padding: 0px 7px;
+    border-radius: 5px;
+    border: 2px solid lightgrey;
+}
+
+
+input:focus {
+    outline: none;
+    border: 2px solid $primary-color;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        min-width: 380px;
+        width: 100%;
+        @media (min-width: 600px) {
+            min-width: none;
+        }
+    }
+    .container-add {
+        display: flex;
+        justify-content: space-between;
+        
+        input {
+            width: 100%;
+        }
+    }
+}
+
+.member-container {
+    display: flex;
+    align-items: center;
+    .member-item {
+    background-color: $primary-color;
+    color: white;
+    padding: 7px 12px;
+    margin: 5px 0;
+    display: flex;
+    width: 100%;
+    border-radius: 5px;
+    }
+}
+
+textarea {
+  border: 2px solid lightgrey !important;
+  height: 100px;
+  border-radius: 5px;
+}
+
+.info-description {
+  font-size: 0.85em;
+  color: $info-color;
+  margin-top: 3px;
+}
+
