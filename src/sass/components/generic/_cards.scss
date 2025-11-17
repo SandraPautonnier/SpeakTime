@@ -1,9 +1,10 @@
 .link-card {
     @include box();
+    background-color: white;
     cursor: pointer;
     transition: all 0.3s ease;
     &:hover {
-        background-color: #EEF1FF;
+        background-color: $background-component-color;
         border: 2px solid $primary-color;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
@@ -31,5 +32,10 @@
 }
 
 .static-component {
+    @include box();
+    background-color: white;
+}
+
+.card-component {
     @include box();
 }

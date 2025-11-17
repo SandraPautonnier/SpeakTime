@@ -99,7 +99,7 @@ main {
 .error-message {
   color: red;
   padding: 10px;
-  background-color: #ffe0e0;
+  background-color: $light-red-color;
   border-radius: 4px;
   margin-bottom: 20px;
   font-size: 14px;
@@ -108,7 +108,7 @@ main {
 .success-message {
   color: green;
   padding: 10px;
-  background-color: #e0ffe0;
+  background-color: $light-green-color;
   border-radius: 4px;
   margin-bottom: 20px;
   font-size: 14px;

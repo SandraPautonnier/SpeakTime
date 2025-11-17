@@ -186,14 +186,27 @@ export default function Meeting() {
 
               const over = s.time > initialPerMember;
 
+              // Déterminer la classe de couleur de la carte
+              let cardColorClass = "card-component";
+              if (s.isSpeaking || (!s.hasSpoken && s.time <= initialPerMember * 0.8)) {
+                // En train de parler ou a utilisé jusqu'à 80%
+                cardColorClass = "card-component time-under-eighty";
+              } else if (s.time >= initialPerMember * 0.8 && s.time < initialPerMember) {
+                // A utilisé entre 80 et 100% de son temps (et pas encore dépassé)
+                cardColorClass = "card-component time-eighty-to-hundred";
+              } else if (over) {
+                // A dépassé son temps
+                cardColorClass = "card-component time-exceeded";
+              }
+
               return (
                 <div
                   key={i}
-                  className={`speaker-card ${s.isSpeaking ? "speaking" : ""}`}
+                  className={cardColorClass}
                 >
                   <div className="card-header">
                     <div className="speaker-name">
-                      <strong>{s.name}</strong>
+                      <p><strong>{s.name}</strong></p>
                       <div className="reorder-buttons">
                         <button
                           onClick={() => moveParticipant(i, "up")}
@@ -220,25 +233,20 @@ export default function Meeting() {
                   </div>
 
                   <div className="card-content">
-                    <div className={`speaking-info ${over ? "overtime" : ""}`}>
+                    <p className={`speaking-info ${over ? "overtime" : ""}`}>
                       Déjà parlé : <strong>{formatTime(s.time)}</strong>
-                      {s.hasSpoken && (
-                        <span className="spoken-note">
-                          (a utilisé son temps)
-                        </span>
-                      )}
-                    </div>
+                    </p>
 
-                    <div className="allocation-info">
-                      Temps de parole alloué :
+                    <p className="speaking-info">
+                      Temps de parole alloué : 
                       <strong>{formatTime(allocation)}</strong>
-                    </div>
+                    </p>
 
                     {over && (
-                      <div className="overtime-alert">
+                      <p className="overtime-alert">
                         🚨 A dépassé de{" "}
-                        {formatTime(Math.floor(s.time - initialPerMember))}
-                      </div>
+                         {formatTime(Math.floor(s.time - initialPerMember))}
+                      </p>
                     )}
                   </div>
                 </div>

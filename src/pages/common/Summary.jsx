@@ -81,16 +81,7 @@ export default function Summary() {
 
       <button
         onClick={() => navigate("/dashboard")}
-        style={{
-          marginTop: "30px",
-          padding: "10px 20px",
-          fontSize: "16px",
-          background: "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
+        className="btn-secondary"
       >
         ← Retour au tableau de bord
       </button>

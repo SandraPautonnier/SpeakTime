@@ -300,11 +300,11 @@ button:disabled {
 }
 
 .link-card {
-  background-color: white;
   border: 2px solid transparent;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -333,7 +333,14 @@ button:disabled {
 }
 
 .static-component {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
+}
+
+.card-component {
   border: 2px solid transparent;
   border-radius: 8px;
   padding: 20px;
@@ -671,35 +678,42 @@ textarea {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
 }
-.meeting main section .speaker-card {
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #eee;
-  background: #fff;
+.meeting main section .card-component {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333;
   transition: background 0.2s ease;
 }
-.meeting main section .speaker-card.speaking {
-  background: #eef6ff;
+.meeting main section .card-component.time-under-eighty {
+  background: #EEF1FF;
 }
-.meeting main section .speaker-card .card-header {
+.meeting main section .card-component.time-eighty-to-hundred {
+  background: #e0ffe0;
+}
+.meeting main section .card-component.time-exceeded {
+  background: #ffe0e0;
+}
+.meeting main section .card-component .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
 }
-.meeting main section .speaker-card .card-header .speaker-name {
+.meeting main section .card-component .card-header .speaker-name {
   display: flex;
   gap: 4px;
   align-items: center;
 }
-.meeting main section .speaker-card .card-header .speaker-name strong {
+.meeting main section .card-component .card-header .speaker-name strong {
   font-weight: 600;
 }
-.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons {
+.meeting main section .card-component .card-header .speaker-name .reorder-buttons {
   display: flex;
   gap: 2px;
 }
-.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons button {
+.meeting main section .card-component .card-header .speaker-name .reorder-buttons button {
   padding: 4px 6px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -708,16 +722,16 @@ textarea {
   font-size: 12px;
   transition: all 0.2s ease;
 }
-.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons button:disabled {
+.meeting main section .card-component .card-header .speaker-name .reorder-buttons button:disabled {
   cursor: not-allowed;
   background: #f0f0f0;
   opacity: 0.5;
 }
-.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons button:not(:disabled):hover {
+.meeting main section .card-component .card-header .speaker-name .reorder-buttons button:not(:disabled):hover {
   background: #f5f5f5;
   border-color: #999;
 }
-.meeting main section .speaker-card .card-header .speak-button {
+.meeting main section .card-component .card-header .speak-button {
   padding: 6px 10px;
   border-radius: 8px;
   border: none;
@@ -726,47 +740,42 @@ textarea {
   font-weight: 600;
   transition: all 0.2s ease;
 }
-.meeting main section .speaker-card .card-header .speak-button.speaking {
+.meeting main section .card-component .card-header .speak-button.speaking {
   background: #e53e3e;
 }
-.meeting main section .speaker-card .card-header .speak-button.speaking:hover {
+.meeting main section .card-component .card-header .speak-button.speaking:hover {
   background: #c53030;
 }
-.meeting main section .speaker-card .card-header .speak-button.not-speaking {
+.meeting main section .card-component .card-header .speak-button.not-speaking {
   background: #3182ce;
 }
-.meeting main section .speaker-card .card-header .speak-button.not-speaking:hover {
+.meeting main section .card-component .card-header .speak-button.not-speaking:hover {
   background: #2c5aa0;
 }
-.meeting main section .speaker-card .card-content {
+.meeting main section .card-component .card-content {
   margin-top: 10px;
 }
-.meeting main section .speaker-card .card-content .speaking-info {
+.meeting main section .card-component .card-content .speaking-info {
   font-size: 13px;
   color: #333;
   margin-bottom: 8px;
 }
-.meeting main section .speaker-card .card-content .speaking-info.overtime {
+.meeting main section .card-component .card-content .speaking-info.overtime {
   color: red;
 }
-.meeting main section .speaker-card .card-content .speaking-info strong {
+.meeting main section .card-component .card-content .speaking-info strong {
   font-weight: 600;
 }
-.meeting main section .speaker-card .card-content .speaking-info .spoken-note {
-  margin-left: 8px;
-  font-size: 12px;
-  color: #555;
-}
-.meeting main section .speaker-card .card-content .allocation-info {
+.meeting main section .card-component .card-content .allocation-info {
   margin-top: 8px;
   font-size: 13px;
   color: #555;
 }
-.meeting main section .speaker-card .card-content .allocation-info strong {
+.meeting main section .card-component .card-content .allocation-info strong {
   margin-left: 8px;
   font-weight: 600;
 }
-.meeting main section .speaker-card .card-content .overtime-alert {
+.meeting main section .card-component .card-content .overtime-alert {
   margin-top: 8px;
   color: red;
   font-weight: 600;

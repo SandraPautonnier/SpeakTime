@@ -49,15 +49,24 @@
       }
 
       // Carte participant
-      .speaker-card {
-        padding: 12px;
-        border-radius: 10px;
-        border: 1px solid #eee;
-        background: #fff;
+      .card-component {
+        @include box();
+        color: #333;
         transition: background 0.2s ease;
 
-        &.speaking {
-          background: #eef6ff;
+        // En train de parler ou a utilisé jusqu'à 80% de son temps
+        &.time-under-eighty {
+          background: $light-primary-color;
+        }
+
+        // A déjà parlé et utilisé entre 80 et 100% de son temps
+        &.time-eighty-to-hundred {
+          background: $light-green-color;
+        }
+
+        // A déjà parlé et a dépassé son temps
+        &.time-exceeded {
+          background: $light-red-color;
         }
 
         // En-tête de la carte
@@ -147,12 +156,6 @@
 
             strong {
               font-weight: 600;
-            }
-
-            .spoken-note {
-              margin-left: 8px;
-              font-size: 12px;
-              color: #555;
             }
           }
 
