@@ -58,13 +58,5 @@
   }
 }
 
-// Bouton d'ajout de participant (bleu)
-.container-add .btn-add {
-  @include button-add();
-}
 
-// Bouton de suppression de participant (rouge)
-.member-container .btn-add {
-  @include button-add();
-  color: $alert-delete-color;
-}
+

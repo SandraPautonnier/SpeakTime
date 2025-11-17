@@ -1,0 +1,179 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.meeting {
+  main {
+    section {
+      // Conteneur header avec temps restant
+      .meeting-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+
+        h2 {
+          margin: 0;
+        }
+
+        .header-info {
+          margin-top: 6px;
+
+          .time-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            font-size: 14px;
+            color: #666;
+
+            strong {
+              font-weight: 600;
+            }
+          }
+
+          .overtime {
+            color: red;
+            margin-top: 6px;
+            font-weight: 600;
+          }
+        }
+      }
+
+      // Grille des participants
+      .speakers-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      // Carte participant
+      .speaker-card {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        background: #fff;
+        transition: background 0.2s ease;
+
+        &.speaking {
+          background: #eef6ff;
+        }
+
+        // En-tête de la carte
+        .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+
+          .speaker-name {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+
+            strong {
+              font-weight: 600;
+            }
+
+            // Boutons de réordering
+            .reorder-buttons {
+              display: flex;
+              gap: 2px;
+
+              button {
+                padding: 4px 6px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+                cursor: pointer;
+                background: white;
+                font-size: 12px;
+                transition: all 0.2s ease;
+
+                &:disabled {
+                  cursor: not-allowed;
+                  background: #f0f0f0;
+                  opacity: 0.5;
+                }
+
+                &:not(:disabled):hover {
+                  background: #f5f5f5;
+                  border-color: #999;
+                }
+              }
+            }
+          }
+
+          // Bouton Parle/Stop
+          .speak-button {
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+
+            &.speaking {
+              background: #e53e3e;
+
+              &:hover {
+                background: #c53030;
+              }
+            }
+
+            &.not-speaking {
+              background: #3182ce;
+
+              &:hover {
+                background: #2c5aa0;
+              }
+            }
+          }
+        }
+
+        // Contenu de la carte
+        .card-content {
+          margin-top: 10px;
+
+          .speaking-info {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 8px;
+
+            &.overtime {
+              color: red;
+            }
+
+            strong {
+              font-weight: 600;
+            }
+
+            .spoken-note {
+              margin-left: 8px;
+              font-size: 12px;
+              color: #555;
+            }
+          }
+
+          .allocation-info {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #555;
+
+            strong {
+              margin-left: 8px;
+              font-weight: 600;
+            }
+          }
+
+          .overtime-alert {
+            margin-top: 8px;
+            color: red;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}

@@ -105,7 +105,7 @@ export default function StartMeeting({ groups = [], isConnected = false }) {
   return (
     <section>
       <h2>Prêt-e à lancer votre réunion ?</h2>
-      <div className="container">
+      <div className="container static-component">
         {/* Mode de durée - uniquement pour utilisateurs connectés */}
         {isConnected && (
           <div className="form-group">

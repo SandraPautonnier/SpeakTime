@@ -53,7 +53,7 @@ export default function MembersList({ members, onAddMember, onRemoveMember, isCo
           <div key={i} className="member-container">
             <span className="member-item">{m}</span>
             <button 
-              className="btn-add" 
+              className="btn-i-remove" 
               onClick={() => onRemoveMember(i)}
               disabled={loading}
               title="Supprimer"
@@ -76,7 +76,7 @@ export default function MembersList({ members, onAddMember, onRemoveMember, isCo
             autoFocus
           />
           <button 
-            className="btn-add" 
+            className="btn-i-add" 
             onClick={handleSaveNewMember}
             title="Ajouter"
           >
@@ -96,7 +96,7 @@ export default function MembersList({ members, onAddMember, onRemoveMember, isCo
             style={{ cursor: 'pointer' }}
           />
           <button 
-            className="btn-add" 
+            className="btn-i-add" 
             onClick={handleCreateNewMember}
             disabled={loading || (members?.length || 0) >= maxMembers}
             title="Ajouter un participant"

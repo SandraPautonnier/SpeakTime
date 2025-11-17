@@ -6,7 +6,7 @@ export default function GroupItem({ group }) {
 
   return (
     <div
-      className="group-card"
+      className="link-card"
       onClick={() => navigate(`/group/${group._id}`)}
     >
       <h4>{group.name}</h4>

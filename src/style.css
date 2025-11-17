@@ -27,6 +27,11 @@ header .header-nav .header-logo {
   align-items: center;
   gap: 10px;
 }
+header .header-nav .header-logo a, header .header-nav .header-logo a:visited, header .header-nav .header-logo a:active, header .header-nav .header-logo a:hover, header .header-nav .header-logo a:focus {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
 header .header-nav .header-logo .logo {
   max-width: 50px;
 }
@@ -74,23 +79,17 @@ header nav .nav-container {
 header nav .nav-container .nav-link {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: #F7F9FF;
-  color: #5664E3;
-  border: 2px solid #5664E3;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  background: #F7F9FF;
+  color: #5664E3;
+  border: 2px solid #5664E3;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 header nav .nav-container .nav-link:hover {
   background-color: #5664E3;
   color: white;
-}
-header nav .nav-container .nav-link:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
 }
 @media (max-width: 768px) {
   header nav .nav-container .nav-link {
@@ -189,6 +188,13 @@ footer p {
   margin: 10px 20px;
 }
 
+button:disabled {
+  background-color: lightgrey;
+  color: darkgrey;
+  border-color: darkgrey;
+  cursor: not-allowed;
+}
+
 .btn-main {
   font-family: "Inter", sans-serif;
   font-weight: 600;
@@ -199,7 +205,7 @@ footer p {
   border-radius: 20px;
   margin-top: 30px;
   cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 .btn-main:hover {
   -webkit-box-shadow: 0px 2px 10px 1px rgba(105, 105, 105, 0.4);
@@ -214,116 +220,124 @@ footer p {
 .btn-secondary {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: #F7F9FF;
-  color: #5664E3;
-  border: 2px solid #5664E3;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  background: #F7F9FF;
+  color: #5664E3;
+  border: 2px solid #5664E3;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 .btn-secondary:hover {
   background-color: #5664E3;
   color: white;
 }
-.btn-secondary:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
-}
-
-.btn-add {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  background: transparent;
-  color: #5664E3;
-  font-size: 17px;
-  border-radius: 5px;
-  margin: 0px 5px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.2s ease-in-out;
-}
-.btn-add:hover {
-  transform: scale(1.2);
-}
-.btn-add:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
-}
-
-.btn-remove {
-  background: transparent;
-  border: none;
-  margin-left: 10px;
-  color: white;
-  cursor: pointer;
-}
-.btn-remove:hover {
-  transform: scale(1.2);
-  color: rgb(184, 19, 19);
-}
 
 .btn-delete {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: #F7F9FF;
-  color: rgb(184, 19, 19);
-  border: 2px solid rgb(184, 19, 19);
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  background: #F7F9FF;
+  color: rgb(184, 19, 19);
+  border: 2px solid rgb(184, 19, 19);
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 .btn-delete:hover {
   background-color: rgb(184, 19, 19);
   color: white;
 }
-.btn-delete:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
-}
 
 .btn-confirm {
   font-family: "Inter", sans-serif;
   font-weight: 600;
-  background: #F7F9FF;
-  color: rgb(7, 131, 42);
-  border: 2px solid rgb(7, 131, 42);
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  background: #F7F9FF;
+  color: rgb(7, 131, 42);
+  border: 2px solid rgb(7, 131, 42);
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 .btn-confirm:hover {
   background-color: rgb(7, 131, 42);
   color: white;
 }
-.btn-confirm:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
+
+.btn-i-add {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  background: transparent;
+  font-size: 17px;
+  margin: 0px 5px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease-in-out;
+}
+.btn-i-add:hover {
+  transform: scale(1.2);
+}
+.btn-i-add {
+  color: #5664E3;
 }
 
-button.back-button {
-  background-color: #5664E3;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
+.btn-i-remove {
+  font-family: "Inter", sans-serif;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  background: transparent;
+  font-size: 17px;
+  margin: 0px 5px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease-in-out;
 }
-button.back-button:hover {
-  background-color: rgb(42.2487309645, 59.8730964467, 219.7512690355);
+.btn-i-remove:hover {
+  transform: scale(1.2);
+}
+.btn-i-remove {
+  color: rgb(184, 19, 19);
+}
+
+.link-card {
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.link-card:hover {
+  background-color: #EEF1FF;
+  border: 2px solid #5664E3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.link-card h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #5664E3;
+}
+.link-card p {
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.link-card p:last-child {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.link-card strong {
+  font-weight: 600;
+}
+
+.static-component {
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 form {
@@ -459,38 +473,6 @@ textarea {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
-.groups-section .groups-grid .group-card {
-  background-color: white;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.groups-section .groups-grid .group-card:hover {
-  background-color: #EEF1FF;
-  border: 2px solid #5664E3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.groups-section .groups-grid .group-card h4 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  color: #5664E3;
-}
-.groups-section .groups-grid .group-card p {
-  color: #666;
-  margin-bottom: 12px;
-  line-height: 1.5;
-}
-.groups-section .groups-grid .group-card p:last-child {
-  color: #999;
-  font-size: 14px;
-  margin-bottom: 0;
-}
-.groups-section .groups-grid .group-card strong {
-  font-weight: 600;
-}
 
 .meetings-section .section-header {
   display: flex;
@@ -501,10 +483,6 @@ textarea {
 .meetings-section .empty-meetings-message {
   color: #666;
   font-size: 16px;
-}
-.meetings-section button.btn-secondary {
-  display: block;
-  margin: 20px auto 0;
 }
 .meetings-section ul {
   list-style: none;
@@ -658,6 +636,142 @@ textarea {
     width: 100%;
   }
 }
+.meeting main section .meeting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.meeting main section .meeting-header h2 {
+  margin: 0;
+}
+.meeting main section .meeting-header .header-info {
+  margin-top: 6px;
+}
+.meeting main section .meeting-header .header-info .time-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+  color: #666;
+}
+.meeting main section .meeting-header .header-info .time-item strong {
+  font-weight: 600;
+}
+.meeting main section .meeting-header .header-info .overtime {
+  color: red;
+  margin-top: 6px;
+  font-weight: 600;
+}
+.meeting main section .speakers-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.meeting main section .speaker-card {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background: #fff;
+  transition: background 0.2s ease;
+}
+.meeting main section .speaker-card.speaking {
+  background: #eef6ff;
+}
+.meeting main section .speaker-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.meeting main section .speaker-card .card-header .speaker-name {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.meeting main section .speaker-card .card-header .speaker-name strong {
+  font-weight: 600;
+}
+.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons {
+  display: flex;
+  gap: 2px;
+}
+.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons button {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background: white;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons button:disabled {
+  cursor: not-allowed;
+  background: #f0f0f0;
+  opacity: 0.5;
+}
+.meeting main section .speaker-card .card-header .speaker-name .reorder-buttons button:not(:disabled):hover {
+  background: #f5f5f5;
+  border-color: #999;
+}
+.meeting main section .speaker-card .card-header .speak-button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.meeting main section .speaker-card .card-header .speak-button.speaking {
+  background: #e53e3e;
+}
+.meeting main section .speaker-card .card-header .speak-button.speaking:hover {
+  background: #c53030;
+}
+.meeting main section .speaker-card .card-header .speak-button.not-speaking {
+  background: #3182ce;
+}
+.meeting main section .speaker-card .card-header .speak-button.not-speaking:hover {
+  background: #2c5aa0;
+}
+.meeting main section .speaker-card .card-content {
+  margin-top: 10px;
+}
+.meeting main section .speaker-card .card-content .speaking-info {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 8px;
+}
+.meeting main section .speaker-card .card-content .speaking-info.overtime {
+  color: red;
+}
+.meeting main section .speaker-card .card-content .speaking-info strong {
+  font-weight: 600;
+}
+.meeting main section .speaker-card .card-content .speaking-info .spoken-note {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #555;
+}
+.meeting main section .speaker-card .card-content .allocation-info {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #555;
+}
+.meeting main section .speaker-card .card-content .allocation-info strong {
+  margin-left: 8px;
+  font-weight: 600;
+}
+.meeting main section .speaker-card .card-content .overtime-alert {
+  margin-top: 8px;
+  color: red;
+  font-weight: 600;
+}
+
 .duration-mode-buttons {
   display: flex;
   gap: 10px;
@@ -705,53 +819,6 @@ textarea {
   font-weight: 600;
   font-family: "Montserrat", sans-serif;
   color: #5664E3;
-}
-
-.container-add .btn-add {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  background: transparent;
-  color: #5664E3;
-  font-size: 17px;
-  border-radius: 5px;
-  margin: 0px 5px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.2s ease-in-out;
-}
-.container-add .btn-add:hover {
-  transform: scale(1.2);
-}
-.container-add .btn-add:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
-}
-
-.member-container .btn-add {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  background: transparent;
-  color: #5664E3;
-  font-size: 17px;
-  border-radius: 5px;
-  margin: 0px 5px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.2s ease-in-out;
-}
-.member-container .btn-add:hover {
-  transform: scale(1.2);
-}
-.member-container .btn-add:disabled {
-  background-color: lightgrey;
-  color: darkgrey;
-  border-color: darkgrey;
-  cursor: not-allowed;
-}
-.member-container .btn-add {
-  color: rgb(184, 19, 19);
 }
 
 .container-dropdown {
@@ -908,6 +975,8 @@ li {
 
 a {
   text-decoration: none;
+  color: inherit;
+  outline: none;
 }
 
 a:-webkit-any-link {
@@ -945,6 +1014,11 @@ main {
   border-radius: 4px;
   margin-bottom: 20px;
   font-size: 14px;
+}
+
+.empty-message {
+  color: #666666;
+  font-size: 16px;
 }
 
 /*# sourceMappingURL=style.css.map */

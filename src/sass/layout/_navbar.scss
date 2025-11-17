@@ -19,6 +19,11 @@ header {
         flex-direction: row;
         align-items: center;
         gap: 10px;
+        a, a:visited, a:active, a:hover, a:focus {
+            text-decoration: none;
+            color: inherit;
+            outline: none;
+        }
         .logo {
             max-width: 50px;
             @media (max-width: 479px) {
@@ -56,6 +61,7 @@ header {
                 }
             }
             .nav-link {
+                @include button();
                 @include button-secondary();
                 @media (max-width: 768px) {
                     border: 0px solid transparent;

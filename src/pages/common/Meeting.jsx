@@ -1,8 +1,8 @@
 // src/pages/Meeting.jsx
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../../components/Navbar";
 import useMeetingsStore from "../../store/useMeetingsStore";
+import Navbar from "../../components/Navbar";
 
 export default function Meeting() {
   const { state } = useLocation();
@@ -151,151 +151,100 @@ export default function Meeting() {
   const globalOvertime = Math.max(0, totalSpoken - totalSeconds);
 
   return (
-    <div className="meeting" style={{ padding: 20 }}>
-      <Header />
+    <div className="meeting">
+      <Navbar />
       <main>
         <section>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <div>
-            <h2>Réunion en cours ...</h2>
-            <div style={{ marginTop: 6 }}>
-              Temps total restant : <strong>{formatTime(timeLeft)}</strong>
-            </div>
-            <div style={{ marginTop: 6, fontSize: 14, color: "#666" }}>
-              Jusqu'à : <strong>{displayEndTime}</strong>
-            </div>
-            {globalOvertime > 0 && (
-              <div style={{ color: "red", marginTop: 6 }}>
-                ⚠️ Dépassement global : {formatTime(globalOvertime)}
+          <div className="meeting-header">
+            <div>
+              <h2>Réunion en cours ...</h2>
+              <div className="header-info">
+                <p className="time-item">
+                  Temps total restant : <strong>{formatTime(timeLeft)}</strong>
+                </p>
+                <p className="time-item">
+                  Jusqu'à : <strong>{displayEndTime}</strong>
+                </p>
+                {globalOvertime > 0 && (
+                  <p className="overtime">
+                    ⚠️ Dépassement global : {formatTime(globalOvertime)}
+                  </p>
+                )}
               </div>
-            )}
+            </div>
           </div>
-        </div>
 
-        <div
-          style={{
-            marginTop: 20,
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: 16,
-          }}
-        >
-          {speakers.map((s, i) => {
-            const isNotYetSpoken = !s.hasSpoken;
-            const allocation =
-              isNotYetSpoken && sumSpokenByHasSpoken === 0
-                ? Math.floor(initialPerMember)
-                : isNotYetSpoken
-                ? allocationForNotYetSpoken
-                : Math.floor(initialPerMember);
+          <div className="speakers-grid">
+            {speakers.map((s, i) => {
+              const isNotYetSpoken = !s.hasSpoken;
+              const allocation =
+                isNotYetSpoken && sumSpokenByHasSpoken === 0
+                  ? Math.floor(initialPerMember)
+                  : isNotYetSpoken
+                  ? allocationForNotYetSpoken
+                  : Math.floor(initialPerMember);
 
-            const over = s.time > initialPerMember;
+              const over = s.time > initialPerMember;
 
-            return (
-              <div
-                key={i}
-                style={{
-                  padding: 12,
-                  borderRadius: 10,
-                  border: "1px solid #eee",
-                  background: s.isSpeaking ? "#eef6ff" : "#fff",
-                }}
-              >
+              return (
                 <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: 8,
-                  }}
+                  key={i}
+                  className={`speaker-card ${s.isSpeaking ? "speaking" : ""}`}
                 >
-                  <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
-                    <strong>{s.name}</strong>
-                    <div style={{ display: "flex", gap: "2px" }}>
-                      <button
-                        onClick={() => moveParticipant(i, "up")}
-                        disabled={i === 0}
-                        style={{
-                          padding: "4px 6px",
-                          borderRadius: 4,
-                          border: "1px solid #ccc",
-                          cursor: i === 0 ? "not-allowed" : "pointer",
-                          background: i === 0 ? "#f0f0f0" : "white",
-                          opacity: i === 0 ? 0.5 : 1,
-                          fontSize: 12,
-                        }}
-                      >
-                        ↑
-                      </button>
-                      <button
-                        onClick={() => moveParticipant(i, "down")}
-                        disabled={i === speakers.length - 1}
-                        style={{
-                          padding: "4px 6px",
-                          borderRadius: 4,
-                          border: "1px solid #ccc",
-                          cursor: i === speakers.length - 1 ? "not-allowed" : "pointer",
-                          background: i === speakers.length - 1 ? "#f0f0f0" : "white",
-                          opacity: i === speakers.length - 1 ? 0.5 : 1,
-                          fontSize: 12,
-                        }}
-                      >
-                        ↓
-                      </button>
+                  <div className="card-header">
+                    <div className="speaker-name">
+                      <strong>{s.name}</strong>
+                      <div className="reorder-buttons">
+                        <button
+                          onClick={() => moveParticipant(i, "up")}
+                          disabled={i === 0}
+                          title="Monter"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          onClick={() => moveParticipant(i, "down")}
+                          disabled={i === speakers.length - 1}
+                          title="Descendre"
+                        >
+                          ↓
+                        </button>
+                      </div>
                     </div>
+                    <button
+                      onClick={() => toggleSpeaking(i)}
+                      className={`speak-button ${s.isSpeaking ? "speaking" : "not-speaking"}`}
+                    >
+                      {s.isSpeaking ? "Stop" : "Parle"}
+                    </button>
                   </div>
-                  <button
-                    onClick={() => toggleSpeaking(i)}
-                    style={{
-                      padding: "6px 10px",
-                      borderRadius: 8,
-                      border: "none",
-                      cursor: "pointer",
-                      background: s.isSpeaking ? "#e53e3e" : "#3182ce",
-                      color: "white",
-                    }}
-                  >
-                    {s.isSpeaking ? "Stop" : "Parle"}
-                  </button>
-                </div>
 
-                <div style={{ marginTop: 10 }}>
-                  <div style={{ fontSize: 13, color: over ? "red" : "#333" }}>
-                    Déjà parlé : <strong>{formatTime(s.time)}</strong>
-                    {s.hasSpoken && (
-                      <span style={{ marginLeft: 8, fontSize: 12, color: "#555" }}>
-                        (a utilisé son temps)
-                      </span>
+                  <div className="card-content">
+                    <div className={`speaking-info ${over ? "overtime" : ""}`}>
+                      Déjà parlé : <strong>{formatTime(s.time)}</strong>
+                      {s.hasSpoken && (
+                        <span className="spoken-note">
+                          (a utilisé son temps)
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="allocation-info">
+                      Temps de parole alloué :
+                      <strong>{formatTime(allocation)}</strong>
+                    </div>
+
+                    {over && (
+                      <div className="overtime-alert">
+                        🚨 A dépassé de{" "}
+                        {formatTime(Math.floor(s.time - initialPerMember))}
+                      </div>
                     )}
                   </div>
-
-                  <div style={{ marginTop: 8, fontSize: 13, color: "#555" }}>
-                    Temps de parole alloué :
-                    <strong style={{ marginLeft: 8 }}>
-                      {formatTime(allocation)}
-                    </strong>
-                  </div>
-
-                  {over && (
-                    <div
-                      style={{ marginTop: 8, color: "red", fontWeight: 600 }}
-                    >
-                      🚨 A dépassé de{" "}
-                      {formatTime(Math.floor(s.time - initialPerMember))}
-                    </div>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
         </section>
       </main>
     </div>

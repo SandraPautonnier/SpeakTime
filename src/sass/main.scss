@@ -78,6 +78,8 @@ li {
 
 a {
     text-decoration: none;
+    color: inherit;
+    outline: none;
 }
 
 a:-webkit-any-link {
@@ -110,4 +112,9 @@ main {
   border-radius: 4px;
   margin-bottom: 20px;
   font-size: 14px;
+}
+
+.empty-message {
+  color: $info-color;
+  font-size: 16px;
 }
