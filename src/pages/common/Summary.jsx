@@ -35,7 +35,7 @@ export default function Summary() {
         🗣️ Temps total parlé : <strong>{formatTime(totalSpoken)}</strong>
       </p>
       {overtime > 0 && (
-        <p style={{ color: "red" }}>
+        <p>
           ⚠️ Dépassement global : {formatTime(overtime)}
         </p>
       )}
