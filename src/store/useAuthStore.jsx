@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const API_AUTH = "http://localhost:5000/api/auth";
+const API_AUTH = `${process.env.REACT_APP_API_URL}/api/auth`;
 const storedUser = localStorage.getItem("user");
 const storedToken = localStorage.getItem("token");
 

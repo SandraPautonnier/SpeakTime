@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const API_USERS = "http://localhost:5000/api/users";
+const API_USERS = `${process.env.REACT_APP_API_URL}/api/users`;
 
 const useUsersStore = create((set) => ({
   user: null,

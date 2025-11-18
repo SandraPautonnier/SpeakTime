@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const API_MEETINGS = "http://localhost:5000/api/meetings";
+const API_MEETINGS = `${process.env.REACT_APP_API_URL}/api/meetings`;
 
 const useMeetingsStore = create((set, get) => ({
   // State

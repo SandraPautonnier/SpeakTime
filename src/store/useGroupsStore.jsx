@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const API_GROUPS = "http://localhost:5000/api/groups";
+const API_GROUPS = `${process.env.REACT_APP_API_URL}/api/groups`;
 
 const useGroupsStore = create((set, get) => ({
   // State
