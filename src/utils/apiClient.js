@@ -1,6 +1,6 @@
 // Client API avec gestion du JWT et des erreurs
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 /**
  * Effectue une requête API avec authentification JWT

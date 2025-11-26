@@ -5,7 +5,7 @@ import Footer from '../../components/Footer';
 
 function Register() {
 
-  const { register, error, isLoading } = useAuthStore();
+  const { register, error, loading } = useAuthStore();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -101,8 +101,8 @@ function Register() {
               {error && <p className="error">{error}</p>}
               {successMessage && <p className="success">{successMessage}</p>}
 
-              <button type="submit" className="btn-main" disabled={isLoading}>
-                {isLoading ? "Création en cours..." : "S'inscrire"}
+              <button type="submit" className="btn-main" disabled={loading}>
+                {loading ? "Création en cours..." : "S'inscrire"}
               </button>
             </form> 
           </div>
