@@ -1,14 +1,13 @@
-// Client API avec gestion du JWT et des erreurs
-
+// apiclient.js
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 /**
- * Effectue une requête API avec authentification JWT
- * @param {string} endpoint - L'endpoint de l'API (ex: /api/groups)
- * @param {object} options - Options fetch (method, body, etc.)
- * @returns {Promise<any>} - La réponse JSON
+ * Fonction interne pour effectuer un appel fetch
+ * @param {string} endpoint 
+ * @param {object} options 
+ * @returns {Promise<any>}
  */
-export const apiCall = async (endpoint, options = {}) => {
+const fetchAPI = async (endpoint, options = {}) => {
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -16,17 +15,9 @@ export const apiCall = async (endpoint, options = {}) => {
     ...options.headers,
   };
 
-  // Ajouter le token JWT si disponible
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
+  if (token) headers.Authorization = `Bearer ${token}`;
 
-  const config = {
-    ...options,
-    headers,
-  };
-
-  // Convertir body en JSON si ce n'est pas déjà fait
+  const config = { ...options, headers };
   if (options.body && typeof options.body !== "string") {
     config.body = JSON.stringify(options.body);
   }
@@ -34,34 +25,25 @@ export const apiCall = async (endpoint, options = {}) => {
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
-    // Si le token a expiré (401), nettoyer le localStorage
+    // Gestion des erreurs 401
     if (response.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      // Rediriger vers la page de connexion
       window.location.href = "/login";
-      throw new Error("Session expirée. Veuillez vous reconnecter.");
+      throw new Error("Session expirée, veuillez vous reconnecter.");
     }
 
-    // Vérifier le type de contenu de la réponse
     const contentType = response.headers.get("content-type");
     let data;
 
     if (contentType && contentType.includes("application/json")) {
       data = await response.json();
-    } else {
-      // Si la réponse n'est pas JSON, c'est probablement une erreur serveur
+    } else if (!response.ok) {
       const text = await response.text();
-
-      if (!response.ok) {
-        console.error("Non-JSON Response:", text);
-        throw new Error(
-          `Erreur serveur ${response.status}. Veuillez réessayer ou contacter le support.`
-        );
-      }
-
-      // Si c'est un succès mais pas du JSON, c'est aussi une erreur
-      throw new Error("Réponse invalide du serveur (pas du JSON)");
+      console.error("Réponse non-JSON:", text);
+      throw new Error(`Erreur serveur ${response.status}`);
+    } else {
+      throw new Error("Réponse invalide du serveur");
     }
 
     if (!response.ok) {
@@ -70,60 +52,17 @@ export const apiCall = async (endpoint, options = {}) => {
 
     return data;
   } catch (error) {
-    console.error("API Error:", error);
+    console.error("Erreur API:", error);
     throw error;
   }
 };
 
 /**
- * Effectue une requête GET
+ * Méthodes API simplifiées
  */
-export const apiGet = (endpoint, options = {}) => {
-  return apiCall(endpoint, {
-    ...options,
-    method: "GET",
-  });
-};
-
-/**
- * Effectue une requête POST
- */
-export const apiPost = (endpoint, body, options = {}) => {
-  return apiCall(endpoint, {
-    ...options,
-    method: "POST",
-    body,
-  });
-};
-
-/**
- * Effectue une requête PUT
- */
-export const apiPut = (endpoint, body, options = {}) => {
-  return apiCall(endpoint, {
-    ...options,
-    method: "PUT",
-    body,
-  });
-};
-
-/**
- * Effectue une requête DELETE
- */
-export const apiDelete = (endpoint, options = {}) => {
-  return apiCall(endpoint, {
-    ...options,
-    method: "DELETE",
-  });
-};
-
-/**
- * Effectue une requête PATCH
- */
-export const apiPatch = (endpoint, body, options = {}) => {
-  return apiCall(endpoint, {
-    ...options,
-    method: "PATCH",
-    body,
-  });
+export const apiClient = {
+  get: (endpoint, options = {}) => fetchAPI(endpoint, { ...options, method: "GET" }),
+  post: (endpoint, body, options = {}) => fetchAPI(endpoint, { ...options, method: "POST", body }),
+  put: (endpoint, body, options = {}) => fetchAPI(endpoint, { ...options, method: "PUT", body }),
+  delete: (endpoint, body, options = {}) => fetchAPI(endpoint, { ...options, method: "DELETE", body }),
 };
