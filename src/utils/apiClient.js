@@ -43,7 +43,26 @@ export const apiCall = async (endpoint, options = {}) => {
       throw new Error("Session expirée. Veuillez vous reconnecter.");
     }
 
-    const data = await response.json();
+    // Vérifier le type de contenu de la réponse
+    const contentType = response.headers.get("content-type");
+    let data;
+
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      // Si la réponse n'est pas JSON, c'est probablement une erreur serveur
+      const text = await response.text();
+
+      if (!response.ok) {
+        console.error("Non-JSON Response:", text);
+        throw new Error(
+          `Erreur serveur ${response.status}. Veuillez réessayer ou contacter le support.`
+        );
+      }
+
+      // Si c'est un succès mais pas du JSON, c'est aussi une erreur
+      throw new Error("Réponse invalide du serveur (pas du JSON)");
+    }
 
     if (!response.ok) {
       throw new Error(data.message || `Erreur ${response.status}`);
