@@ -26,21 +26,57 @@ function Register() {
   const validateForm = () => {
     const { username, email, confirmEmail, password, confirmPassword } = formData;
 
+    // Tous les champs requis
     if (!username || !email || !confirmEmail || !password || !confirmPassword) {
       return "Tous les champs sont obligatoires.";
     }
+
+    // Validation username : 3-20 caractères, alphanumériques + tiret/underscore
+    if (!/^[a-zA-Z0-9_-]{3,20}$/.test(username)) {
+      return "Le nom d'utilisateur doit contenir 3-20 caractères (lettres, chiffres, tiret, underscore).";
+    }
+
+    // Les emails correspondent
     if (email !== confirmEmail) {
       return "Les emails ne correspondent pas.";
     }
+
+    // Validation email : format valide
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return "L'adresse email doit être valide.";
+    }
+
+    // Les mots de passe correspondent
     if (password !== confirmPassword) {
       return "Les mots de passe ne correspondent pas.";
     }
-    if (password.length < 8 || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      return "Le mot de passe doit contenir au moins 8 caractères et un caractère spécial.";
+
+    // Validation password : 8-50 caractères, avec lettre + chiffre + caractère spécial, pas d'espace
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasDigit = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasNoSpace = !/\s/.test(password);
+
+    if (password.length < 8 || password.length > 50) {
+      return "Le mot de passe doit contenir entre 8 et 50 caractères.";
     }
-    if (!email.includes("@")) {
-      return "L'adresse email doit être valide.";
+
+    if (!hasLetter) {
+      return "Le mot de passe doit contenir au moins une lettre.";
     }
+
+    if (!hasDigit) {
+      return "Le mot de passe doit contenir au moins un chiffre.";
+    }
+
+    if (!hasSpecialChar) {
+      return "Le mot de passe doit contenir au moins un caractère spécial (!@#$%^&*(),.?\":{}|<>).";
+    }
+
+    if (!hasNoSpace) {
+      return "Le mot de passe ne doit pas contenir d'espace.";
+    }
+
     return "";
   };
 

@@ -68,3 +68,16 @@ export const getUserFromToken = (token) => {
   const payload = decodeJWT(token);
   return payload ? { ...payload } : null;
 };
+
+/**
+ * Vérifie si le token doit être rafraîchi (expire dans moins de 5 min)
+ * @param {string} token - Le token JWT
+ * @returns {boolean} - true si le token doit être rafraîchi
+ */
+export const shouldRefreshToken = (token) => {
+  if (!token) return false;
+
+  const timeRemaining = getTokenTimeRemaining(token);
+  // Rafraîchir si moins de 5 minutes (300 secondes) restantes
+  return timeRemaining < 300 && timeRemaining > 0;
+};

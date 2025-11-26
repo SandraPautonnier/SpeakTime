@@ -28,7 +28,12 @@ function Login() {
     const { email, password } = formData;
 
     if (!email || !password) return "Tous les champs sont obligatoires.";
-    if (!email.includes("@")) return "L'adresse email doit être valide.";
+    
+    // Validation email : format valide
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return "L'adresse email doit être valide.";
+    }
+    
     return "";
   };
 
