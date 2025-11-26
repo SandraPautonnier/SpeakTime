@@ -1,6 +1,5 @@
 import { create } from "zustand";
-
-const API_GROUPS = `${process.env.REACT_APP_API_URL}/api/groups`;
+import { apiGet, apiPost, apiPut, apiDelete } from "../utils/apiClient";
 
 const useGroupsStore = create((set, get) => ({
   // State
@@ -12,19 +11,9 @@ const useGroupsStore = create((set, get) => ({
 
   // --- Récupérer tous les groupes ---
   fetchGroups: async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    
     set({ loading: true, error: null });
     try {
-      const res = await fetch(API_GROUPS, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération des groupes");
-
-      // Le backend retourne { groups: [...] }
+      const data = await apiGet("/api/groups");
       const groupsData = data.groups || [];
       set({ groups: groupsData, loading: false });
     } catch (err) {
@@ -34,19 +23,9 @@ const useGroupsStore = create((set, get) => ({
 
   // --- Récupérer un groupe par ID ---
   getGroupById: async (id) => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
     set({ loading: true, error: null });
     try {
-      const res = await fetch(`${API_GROUPS}/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération du groupe");
-
-      // Le backend retourne { group: {...} }
+      const data = await apiGet(`/api/groups/${id}`);
       set({ selectedGroup: data.group, loading: false });
       return data.group;
     } catch (err) {
@@ -57,24 +36,9 @@ const useGroupsStore = create((set, get) => ({
 
   // --- Créer un groupe ---
   createGroup: async (formData) => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
     set({ loading: true, error: null, success: null });
     try {
-      const res = await fetch(API_GROUPS, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la création du groupe");
-
-      // Le backend retourne { message: "...", group: {...} }
+      const data = await apiPost("/api/groups", formData);
       const newGroup = data.group;
       set((state) => ({
         groups: [...state.groups, newGroup],
@@ -90,24 +54,9 @@ const useGroupsStore = create((set, get) => ({
 
   // --- Mettre à jour le nom du groupe ---
   updateGroupName: async (id, name) => {
-    const token = localStorage.getItem("token");
-    if (!token) return false;
-
     set({ loading: true, error: null, success: null });
     try {
-      const res = await fetch(`${API_GROUPS}/${id}/name`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la mise à jour");
-
-      // Le backend retourne { message: "...", group: {...} }
+      const data = await apiPut(`/api/groups/${id}/name`, { name });
       const updatedGroup = data.group;
       set((state) => ({
         groups: state.groups.map((g) => (g._id === id ? updatedGroup : g)),

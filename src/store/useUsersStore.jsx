@@ -1,6 +1,5 @@
 import { create } from "zustand";
-
-const API_USERS = `${process.env.REACT_APP_API_URL}/api/users`;
+import { apiGet, apiPut } from "../utils/apiClient";
 
 const useUsersStore = create((set) => ({
   user: null,
@@ -9,23 +8,15 @@ const useUsersStore = create((set) => ({
 
   // --- Récupérer un utilisateur par ID ---
   getUserById: async (id) => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
     set({ loading: true, error: null });
     try {
-      const res = await fetch(`${API_USERS}/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération de l'utilisateur");
+      const data = await apiGet(`/api/users/${id}`);
 
       // Transformer id en _id pour la cohérence
       if (data.id && !data._id) {
         data._id = data.id;
       }
 
-      // Le backend retourne l'utilisateur directement (pas enveloppé)
       set({ user: data, loading: false });
       return data;
     } catch (err) {
@@ -36,40 +27,13 @@ const useUsersStore = create((set) => ({
 
   // --- Modifier un utilisateur ---
   updateUser: async (id, formData) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      set({ error: "Pas de token", loading: false });
-      return false;
-    }
-
     set({ loading: true, error: null });
     try {
-      const res = await fetch(`${API_USERS}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      const text = await res.text();
-      
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        throw new Error(`Réponse invalide du serveur`);
-      }
-      
+      const data = await apiPut(`/api/users/${id}`, formData);
+
       // Transformer id en _id pour la cohérence
       if (data.id && !data._id) {
         data._id = data.id;
-      }
-      
-      if (!res.ok) {
-        const errorMsg = data.message || "Erreur lors de la mise à jour";
-        throw new Error(errorMsg);
       }
 
       set({ user: data, loading: false });

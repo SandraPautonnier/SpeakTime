@@ -1,6 +1,5 @@
 import { create } from "zustand";
-
-const API_MEETINGS = `${process.env.REACT_APP_API_URL}/api/meetings`;
+import { apiGet, apiPost } from "../utils/apiClient";
 
 const useMeetingsStore = create((set, get) => ({
   // State
@@ -12,19 +11,9 @@ const useMeetingsStore = create((set, get) => ({
 
   // --- Récupérer tous les meetings ---
   fetchMeetings: async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
     set({ loading: true, error: null });
     try {
-      const res = await fetch(API_MEETINGS, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération des réunions");
-
-      // Le backend retourne { meetings: [...] }
+      const data = await apiGet("/api/meetings");
       const meetingsData = data.meetings || [];
       set({ meetings: meetingsData, loading: false });
     } catch (err) {
@@ -34,18 +23,9 @@ const useMeetingsStore = create((set, get) => ({
 
   // --- Récupérer un meeting par ID ---
   getMeetingById: async (id) => {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
     set({ loading: true, error: null });
     try {
-      const res = await fetch(`${API_MEETINGS}/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération de la réunion");
-
+      const data = await apiGet(`/api/meetings/${id}`);
       set({ selectedMeeting: data, loading: false });
       return data;
     } catch (err) {
@@ -56,23 +36,9 @@ const useMeetingsStore = create((set, get) => ({
 
   // --- Créer un meeting ---
   createMeeting: async (formData) => {
-    const token = localStorage.getItem("token");
-    if (!token) return false;
-
     set({ loading: true, error: null, success: null });
     try {
-      const res = await fetch(API_MEETINGS, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la création de la réunion");
-
+      const data = await apiPost("/api/meetings", formData);
       set((state) => ({
         meetings: [...state.meetings, data.meeting],
         success: "Réunion créée avec succès !",

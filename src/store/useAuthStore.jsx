@@ -1,12 +1,25 @@
 import { create } from "zustand";
+import { isTokenValid, isTokenExpired } from "../utils/jwtUtils";
 
 const API_AUTH = `${process.env.REACT_APP_API_URL}/api/auth`;
 const storedUser = localStorage.getItem("user");
 const storedToken = localStorage.getItem("token");
 
+// Vérifier que le token n'a pas expiré au démarrage
+const initialToken = storedToken && !isTokenExpired(storedToken) ? storedToken : null;
+const initialUser = initialToken && storedUser && storedUser !== "undefined" 
+  ? JSON.parse(storedUser) 
+  : null;
+
+// Si le token a expiré, nettoyer le localStorage
+if (storedToken && isTokenExpired(storedToken)) {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+}
+
 const useAuthStore = create((set) => ({
-  user: storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null,
-  token: storedToken && storedToken !== "undefined" ? storedToken : null,
+  user: initialUser,
+  token: initialToken,
   loading: false,
   error: null,
   success: null,
@@ -64,6 +77,22 @@ const useAuthStore = create((set) => ({
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     set({ user: null, token: null });
+  },
+
+  // --- Vérifier si authentifié ---
+  isAuthenticated: () => {
+    const token = localStorage.getItem("token");
+    return token && isTokenValid();
+  },
+
+  // --- Nettoyer erreur ---
+  clearError: () => {
+    set({ error: null });
+  },
+
+  // --- Nettoyer succès ---
+  clearSuccess: () => {
+    set({ success: null });
   },
 }));
 
