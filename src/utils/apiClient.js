@@ -6,7 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL;
  * Effectue une requête API avec authentification JWT
  * @param {string} endpoint - L'endpoint de l'API (ex: /api/groups)
  * @param {object} options - Options fetch (method, body, etc.)
- * @returns {Promise<object>} - La réponse JSON
+ * @returns {Promise<any>} - La réponse JSON
  */
 export const apiCall = async (endpoint, options = {}) => {
   const token = localStorage.getItem("token");
