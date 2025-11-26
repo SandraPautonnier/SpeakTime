@@ -1,7 +1,9 @@
 // Client API avec gestion du JWT et des erreurs
 
-const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_URL || "https://backend-speaktime.onrender.com";
-console.log(API_BASE_URL)
+const API_BASE_URL =
+  import.meta.env.VITE_REACT_APP_API_URL ||
+  "https://backend-speaktime.onrender.com";
+console.log(API_BASE_URL);
 
 /**
  * Effectue une requête API avec authentification JWT
@@ -66,7 +68,19 @@ export const apiCall = async (endpoint, options = {}) => {
     }
 
     if (!response.ok) {
-      throw new Error(data.message || `Erreur ${response.status}`);
+      // Ne pas révéler les détails du serveur
+      let errorMessage = data.message || `Erreur ${response.status}`;
+
+      // Messages génériques pour éviter les fuites d'infos
+      if (response.status === 404) {
+        errorMessage = "Erreur serveur 404";
+      } else if (response.status === 500) {
+        errorMessage = "Erreur serveur 500";
+      } else if (response.status >= 500) {
+        errorMessage = "Une erreur est survenue. Veuillez réessayer plus tard.";
+      }
+
+      throw new Error(errorMessage);
     }
 
     return data;

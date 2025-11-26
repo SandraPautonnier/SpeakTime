@@ -31,8 +31,10 @@ const useAuthStore = create((set) => ({
       set({ success: "Inscription réussie ! Vous pouvez maintenant vous connecter.", loading: false });
       return true;
     } catch (err) {
-      // Améliorer les messages d'erreur
-      const errorMessage = err.message || "Erreur lors de l'inscription";
+      // Message générique pour ne pas révéler la structure du backend
+      const errorMessage = err.message?.includes("404") || err.message?.includes("Erreur serveur") 
+        ? "Une erreur est survenue. Veuillez réessayer plus tard."
+        : err.message || "Erreur lors de l'inscription";
       set({ error: errorMessage, loading: false });
       return false;
     }
@@ -59,8 +61,13 @@ const useAuthStore = create((set) => ({
       set({ user, token: data.token, success: "Connexion réussie !", loading: false });
       return true;
     } catch (err) {
-      // Améliorer les messages d'erreur
-      const errorMessage = err.message || "Email ou mot de passe incorrect";
+      // Messages d'erreur génériques
+      let errorMessage = "Erreur lors de la connexion";
+      if (err.message?.includes("401") || err.message?.includes("incorrect")) {
+        errorMessage = "Email ou mot de passe incorrect";
+      } else if (err.message?.includes("404") || err.message?.includes("Erreur serveur")) {
+        errorMessage = "Une erreur est survenue. Veuillez réessayer plus tard.";
+      }
       set({ error: errorMessage, loading: false });
       return false;
     }
